@@ -24,9 +24,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        g<activity
+        <activity
             android:name=".Login_Awal"
-            android:label="@string/title_activity_login__awal"></activity>
+            android:label="@string/title_activity_login__awal" />
+        <activity
+            android:name=".Dashboard"
+            android:label="@string/title_activity_dashboard"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".Dashboard">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="kpits.notif_msoc.Dashboard" />
+        </activity>
     </application>
 
 </manifest>
