@@ -189,5 +189,14 @@
     </string-array>
 
     <string name="prompt_etc">Lainnya</string>
+    <string name="title_activity_profile">Profile</string>
+
+
+    <string name="prompt_user">Username</string>
+    <string name="prompt_pass">Password</string>
+    <string name="prompt_name">Nama</string>
+    <string name="prompt_kabupaten">Provinsi/Kabupaten</string>
+    <string name="prompt_phone">Nomor Telepon</string>
+    <string name="prompt_mail">E-Mail</string>
 
 </resources>

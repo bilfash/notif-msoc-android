@@ -89,6 +89,11 @@ public class Awal extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToProfile(View view) {
+        Intent intent = new Intent(this, Profile.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
