@@ -38,7 +38,25 @@
         <activity
             android:name=".Dashboard"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Notification"
+            android:label="@string/title_activity_notification"
+            android:parentActivityName=".Dashboard"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="kpits.notif_msoc.Dashboard" />
+        </activity>
+        <activity
+            android:name=".Pertanyaan"
+            android:label="@string/title_activity_pertanyaan"
+            android:parentActivityName=".Notification"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="kpits.notif_msoc.Notification" />
+        </activity>
     </application>
 
 </manifest>
