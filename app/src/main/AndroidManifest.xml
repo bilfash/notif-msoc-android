@@ -48,6 +48,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="kpits.notif_msoc.Dashboard" />
         </activity>
+        <activity
+            android:name=".Pertanyaan"
+            android:label="@string/title_activity_pertanyaan"
+            android:parentActivityName=".Notification"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="kpits.notif_msoc.Notification" />
+        </activity>
     </application>
 
 </manifest>
