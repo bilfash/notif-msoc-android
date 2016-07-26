@@ -36,7 +36,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class Login_Awal extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class Login_AwalActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -196,7 +196,7 @@ public class Login_Awal extends AppCompatActivity implements LoaderCallbacks<Cur
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 3;
     }
 
     /**
@@ -272,7 +272,7 @@ public class Login_Awal extends AppCompatActivity implements LoaderCallbacks<Cur
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(Login_Awal.this,
+                new ArrayAdapter<>(Login_AwalActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mUsernameView.setAdapter(adapter);
@@ -333,8 +333,8 @@ public class Login_Awal extends AppCompatActivity implements LoaderCallbacks<Cur
 
             if (success) {
                 finish();
-                Intent intent = new Intent(Login_Awal.this, Dashboard.class);
-                Login_Awal.this.startActivity(intent);
+                Intent intent = new Intent(Login_AwalActivity.this, DashboardActivity.class);
+                Login_AwalActivity.this.startActivity(intent);
 
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

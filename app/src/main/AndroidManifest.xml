@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Awal"
+            android:name=".AwalActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_awal"
             android:theme="@style/FullscreenTheme">
@@ -25,46 +25,46 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Login_Awal"
+            android:name=".Login_AwalActivity"
             android:label="@string/title_activity_login__awal" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".Dashboard">
+            android:parentActivityName=".DashboardActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Dashboard" />
+                android:value=".DashboardActivity" />
         </activity>
         <activity
-            android:name=".Dashboard"
+            android:name=".DashboardActivity"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Notification"
+            android:name=".NotificationActivity"
             android:label="@string/title_activity_notification"
-            android:parentActivityName=".Dashboard"
+            android:parentActivityName=".DashboardActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="kpits.notif_msoc.Dashboard" />
+                android:value=".DashboardActivity" />
         </activity>
         <activity
-            android:name=".Pertanyaan"
+            android:name=".PertanyaanActivity"
             android:label="@string/title_activity_pertanyaan"
-            android:parentActivityName=".Notification"
+            android:parentActivityName=".NotificationActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="kpits.notif_msoc.Notification" />
+                android:value=".NotificationActivity" />
         </activity>
         <activity
-            android:name=".Profile"
+            android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:parentActivityName=".Dashboard"
+            android:parentActivityName=".DashboardActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="kpits.notif_msoc.Dashboard" />
+                android:value=".DashboardActivity" />
         </activity>
     </application>
 

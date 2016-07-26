@@ -14,9 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.View;
+
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,7 +22,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
-public class Pertanyaan extends AppCompatActivity
+public class PertanyaanActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -192,7 +190,7 @@ public class Pertanyaan extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(Pertanyaan.this,
+                Toast.makeText(PertanyaanActivity.this,
                         "OnClickListener : " +
                                 "\nSpinner 1 : "+ String.valueOf(spinner1.getSelectedItem()) +
                                 "\nSpinner 2 : "+ String.valueOf(spinner2.getSelectedItem()) +

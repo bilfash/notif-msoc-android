@@ -13,7 +13,7 @@ import android.view.View;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class Awal extends AppCompatActivity {
+public class AwalActivity extends AppCompatActivity {
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -85,12 +85,12 @@ public class Awal extends AppCompatActivity {
     };
 
     public void goToLogin(View view) {
-        Intent intent = new Intent(this, Login_Awal.class);
+        Intent intent = new Intent(this, Login_AwalActivity.class);
         startActivity(intent);
     }
 
     public void goToProfile(View view) {
-        Intent intent = new Intent(this, Profile.class);
+        Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
 
