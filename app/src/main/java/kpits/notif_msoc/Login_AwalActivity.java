@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -37,6 +38,9 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class Login_AwalActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+
+    private static final String LOGIN_URL =
+            "http://burhan.pe.hu";
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -297,15 +301,31 @@ public class Login_AwalActivity extends AppCompatActivity implements LoaderCallb
 
         private final String mEmail;
         private final String mPassword;
+        Connect ruc = new Connect();
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
+        UserLoginTask(String username, String password) {
+            mEmail = username;
             mPassword = password;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+
+            HashMap<String, String> data = new HashMap<String,String>();
+            data.put("username", mEmail);
+            data.put("password", mPassword);
+
+            String result = ruc.sendPostRequest(LOGIN_URL,data);
+            //if sukses true else false
+
+            /*try {
+                return login(result); //output true
+            } catch (IOException e) {
+                return getResources().getString(R.string.connection_error);
+            } catch (XmlPullParserException e) {
+                return getResources().getString(R.string.xml_error);
+            }*/
 
             try {
                 // Simulate network access.

@@ -1,5 +1,14 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <ListPreference
+        android:title="@string/pref_title_sync_feed"
+        android:summary="Network connectivity required to download the feed."
+        android:key="listPref"
+        android:defaultValue="Any"
+        android:entries="@array/pref_sync_feed_titles"
+        android:entryValues="@array/pref_sync_feed_values"
+    />
+
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->

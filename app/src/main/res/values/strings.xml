@@ -140,6 +140,16 @@
     <!-- Example settings for Data & Sync -->
     <string name="pref_header_data_sync">Data &amp; sync</string>
 
+    <string name="pref_title_sync_feed">Download Feed</string>
+    <string-array name="pref_sync_feed_titles">
+        <item>Only when on Wi-Fi</item>
+        <item>On any network</item>
+    </string-array>
+    <string-array name="pref_sync_feed_values">
+        <item>Wi-Fi</item>
+        <item>Any</item>
+    </string-array>
+
     <string name="pref_title_sync_frequency">Sync frequency</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
@@ -198,5 +208,13 @@
     <string name="prompt_kabupaten">Provinsi/Kabupaten</string>
     <string name="prompt_phone">Nomor Telepon</string>
     <string name="prompt_mail">E-Mail</string>
+
+    <!--  NetworkActivity -->
+    <string name="page_title">Newest StackOverflow questions tagged \'android\'</string>
+    <string name="updated">Last updated:</string>
+    <string name="lost_connection">Lost connection.</string>
+    <string name="wifi_connected">Wi-Fi reconnected.</string>
+    <string name="connection_error">Unable to load content. Check your network connection.</string>
+    <string name="xml_error">Error parsing XML.</string>
 
 </resources>
