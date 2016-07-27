@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "112170418110",
+    "firebase_url": "https://notif-msoc.firebaseio.com",
+    "project_id": "notif-msoc",
+    "storage_bucket": "notif-msoc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112170418110:android:bb22fec058dfdffd",
+        "android_client_info": {
+          "package_name": "kpits.notif_msoc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "112170418110-0slkvvb0ns8eo1vh25f35i5p27susu07.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFENvvX2ueCwvF4gSHQ4JOz2veYaNBJuk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
