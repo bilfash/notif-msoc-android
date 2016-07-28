@@ -189,15 +189,23 @@
     <string name="title_activity_pertanyaan">Pertanyaan</string>
     <string name="country_prompt">Choose a country</string>
 
-    <string-array name="country_arrays">
-        <item>Malaysia</item>
-        <item>United States</item>
-        <item>Indonesia</item>
-        <item>France</item>
-        <item>Italy</item>
-        <item>Singapore</item>
-        <item>New Zealand</item>
-        <item>India</item>
+    <string-array name="question_categories_arrays">
+        <item>Pilih</item>
+        <item>Perangkat Jaringan</item>
+        <item>Link</item>
+        <item>PLN</item>
+        <item>SIAK</item>
+        <item>Kantor</item>
+        <item>Perangkat E-KTP</item>
+        <item>Lainnya</item>
+    </string-array>
+
+    <string-array name="time_arrays">
+        <item>Pilih</item>
+        <item>Pilih Hari</item>
+        <item>Pilih Minggu</item>
+        <item>Pilih Bulan</item>
+        <item>Pilih Tahun</item>
     </string-array>
 
     <string name="prompt_etc">Lainnya</string>

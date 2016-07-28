@@ -54,6 +54,14 @@
             android:id="@+id/profile_button"
             android:layout_gravity="right|bottom"
             android:onClick="goToProfile" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notification"
+            android:id="@+id/notification_button"
+            android:layout_gravity="left|bottom"
+            android:onClick="goToNotification" />
     </FrameLayout>
 
 </FrameLayout>

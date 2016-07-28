@@ -12,9 +12,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.Menu;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class NotificationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    String[] mobileArray = {
+            "20/7/2016\n\tServer DOWN",
+            "20/7/2016\n\tServer UP",
+            "21/7/2016\n\tServer DOWN",
+            "22/7/2016\n\tServer UP",
+            "23/7/2016\n\tServer DOWN",
+            "23/7/2016\n\tServer UP",
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +36,11 @@ public class NotificationActivity extends AppCompatActivity
         setContentView(R.layout.activity_notification);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, mobileArray);
+
+        ListView listView = (ListView) findViewById(R.id.mobile_list);
+        listView.setAdapter(adapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

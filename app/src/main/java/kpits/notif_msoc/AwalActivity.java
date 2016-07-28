@@ -94,6 +94,11 @@ public class AwalActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToNotification(View view) {
+        Intent intent = new Intent(this, NotificationActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
