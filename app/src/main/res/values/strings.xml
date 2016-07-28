@@ -110,6 +110,8 @@
     <string name="action_settings">Settings</string>
     <string name="settings">Settings</string>
     <string name="refresh">Refresh</string>
+    <string name="subs">Subs</string>
+    <string name="token">Token</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
