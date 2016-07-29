@@ -75,7 +75,7 @@ public class DashboardActivity extends AppCompatActivity
         // Enable Javascript
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        mWebView.loadUrl("http://www.ghulam.hol.es/");
+        mWebView.loadUrl("http://www.ghulam.hol.es/picdashboard");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
