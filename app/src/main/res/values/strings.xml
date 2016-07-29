@@ -200,11 +200,19 @@
         <item>Lainnya</item>
     </string-array>
 
-    <string-array name="time_arrays">
-        <item>Pilih</item>
+    <string-array name="time_arrays_hari">
         <item>Pilih Hari</item>
+    </string-array>
+
+    <string-array name="time_arrays_minggu">
         <item>Pilih Minggu</item>
+    </string-array>
+
+    <string-array name="time_arrays_bulan">
         <item>Pilih Bulan</item>
+    </string-array>
+
+    <string-array name="time_arrays_tahun">
         <item>Pilih Tahun</item>
     </string-array>
 

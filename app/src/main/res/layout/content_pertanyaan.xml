@@ -71,7 +71,7 @@
         android:id="@+id/spinner4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/time_arrays"
+        android:entries="@array/time_arrays_hari"
         android:layout_centerHorizontal="true"
         style="@android:style/Widget.Holo.Light.Spinner"
         android:spinnerMode="dialog"
@@ -81,27 +81,38 @@
         android:id="@+id/spinner5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:entries="@array/time_arrays_minggu"
         android:layout_centerHorizontal="true"
         style="@android:style/Widget.Holo.Light.Spinner"
         android:spinnerMode="dialog"
         android:layout_marginTop="280dp" />
 
-    <AutoCompleteTextView
-        android:id="@+id/textView6"
+    <Spinner
+        android:id="@+id/spinner6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/prompt_etc"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:inputType="text"
+        android:entries="@array/time_arrays_bulan"
+        android:layout_centerHorizontal="true"
+        style="@android:style/Widget.Holo.Light.Spinner"
+        android:spinnerMode="dialog"
         android:layout_marginTop="320dp" />
+
+    <Spinner
+        android:id="@+id/spinner7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/time_arrays_tahun"
+        android:layout_centerHorizontal="true"
+        style="@android:style/Widget.Holo.Light.Spinner"
+        android:spinnerMode="dialog"
+        android:layout_marginTop="360dp" />
 
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Submit"
-        android:layout_marginTop="390dp"
+        android:layout_marginTop="430dp"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

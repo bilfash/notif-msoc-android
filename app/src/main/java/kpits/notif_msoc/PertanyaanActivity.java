@@ -114,7 +114,7 @@ public class PertanyaanActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    private Spinner spinner1, spinner2, spinner3, spinner4, spinner5;
+    private Spinner spinner1, spinner2, spinner3, spinner4, spinner5, spinner6, spinner7;
     private Button btnSubmit;
 
     // add items into spinner dynamically
@@ -508,6 +508,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateHari() {
         spinner4 = (Spinner) findViewById(R.id.spinner4);
         List<String> list = new ArrayList<String>();
+        list.add("Pilih Hari");
         list.add("-");
         list.add("1 Hari");
         list.add("2 Hari");
@@ -523,8 +524,9 @@ public class PertanyaanActivity extends AppCompatActivity
     }
 
     public void PopulateMinggu() {
-        spinner4 = (Spinner) findViewById(R.id.spinner4);
+        spinner5 = (Spinner) findViewById(R.id.spinner5);
         List<String> list = new ArrayList<String>();
+        list.add("Pilih Minggu");
         list.add("-");
         list.add("1 Minggu");
         list.add("2 Minggu");
@@ -533,28 +535,36 @@ public class PertanyaanActivity extends AppCompatActivity
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
-        spinner4.setAdapter(dataAdapter);
+        spinner5.setAdapter(dataAdapter);
     }
 
     public void PopulateBulan() {
-        spinner4 = (Spinner) findViewById(R.id.spinner4);
+        spinner6 = (Spinner) findViewById(R.id.spinner6);
         List<String> list = new ArrayList<String>();
+        list.add("Pilih Bulan");
         list.add("-");
         list.add("1 Bulan");
         list.add("2 Bulan");
         list.add("3 Bulan");
         list.add("4 Bulan");
         list.add("5 Bulan");
+        list.add("6 Bulan");
+        list.add("7 Bulan");
+        list.add("8 Bulan");
+        list.add("9 Bulan");
+        list.add("10 Bulan");
+        list.add("11 Bulan");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
-        spinner4.setAdapter(dataAdapter);
+        spinner6.setAdapter(dataAdapter);
     }
 
     public void PopulateTahun() {
-        spinner4 = (Spinner) findViewById(R.id.spinner4);
+        spinner7 = (Spinner) findViewById(R.id.spinner7);
         List<String> list = new ArrayList<String>();
+        list.add("Pilih Tahun");
         list.add("-");
         list.add("1 Tahun");
         list.add("2 Tahun");
@@ -565,7 +575,7 @@ public class PertanyaanActivity extends AppCompatActivity
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
-        spinner4.setAdapter(dataAdapter);
+        spinner7.setAdapter(dataAdapter);
     }
 
 //    public void addItemsOnSpinner5() {
@@ -585,6 +595,13 @@ public class PertanyaanActivity extends AppCompatActivity
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         spinner4 = (Spinner) findViewById(R.id.spinner4);
         spinner5 = (Spinner) findViewById(R.id.spinner5);
+        spinner6 = (Spinner) findViewById(R.id.spinner6);
+        spinner7 = (Spinner) findViewById(R.id.spinner7);
+
+        PopulateHari();
+        PopulateMinggu();
+        PopulateBulan();
+        PopulateTahun();
 
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -772,22 +789,54 @@ public class PertanyaanActivity extends AppCompatActivity
                 // TODO Auto-generated method stub
                 String sp4= String.valueOf(spinner4.getSelectedItem());
                 Toast.makeText(PertanyaanActivity.this, sp4, Toast.LENGTH_SHORT).show();
+            }
 
-                if(sp4.contentEquals("Pilih")) {
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
 
-                }
-                else if(sp4.contentEquals("Pilih Hari")) {
-                    PopulateHari();
-                }
-                else if(sp4.contentEquals("Pilih Minggu")) {
-                    PopulateMinggu();
-                }
-                else if(sp4.contentEquals("Pilih Bulan")) {
-                    PopulateBulan();
-                }
-                else if(sp4.contentEquals("Pilih Tahun")) {
-                    PopulateTahun();
-                }
+            }
+        });
+
+        spinner5.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+                                       long arg3) {
+                // TODO Auto-generated method stub
+                String sp5= String.valueOf(spinner5.getSelectedItem());
+                Toast.makeText(PertanyaanActivity.this, sp5, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+        spinner6.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+                                       long arg3) {
+                // TODO Auto-generated method stub
+                String sp6= String.valueOf(spinner6.getSelectedItem());
+                Toast.makeText(PertanyaanActivity.this, sp6, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+        spinner7.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+                                       long arg3) {
+                // TODO Auto-generated method stub
+                String sp7= String.valueOf(spinner7.getSelectedItem());
+                Toast.makeText(PertanyaanActivity.this, sp7, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -808,6 +857,8 @@ public class PertanyaanActivity extends AppCompatActivity
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         spinner4 = (Spinner) findViewById(R.id.spinner4);
         spinner5 = (Spinner) findViewById(R.id.spinner5);
+        spinner6 = (Spinner) findViewById(R.id.spinner6);
+        spinner7 = (Spinner) findViewById(R.id.spinner7);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
         btnSubmit.setOnClickListener(new OnClickListener() {
@@ -821,7 +872,9 @@ public class PertanyaanActivity extends AppCompatActivity
                                 "\nSpinner 2 : "+ String.valueOf(spinner2.getSelectedItem()) +
                                 "\nSpinner 3 : "+ String.valueOf(spinner3.getSelectedItem()) +
                                 "\nSpinner 4 : "+ String.valueOf(spinner4.getSelectedItem()) +
-                                "\nSpinner 5 : "+ String.valueOf(spinner5.getSelectedItem()),
+                                "\nSpinner 5 : "+ String.valueOf(spinner5.getSelectedItem()) +
+                                "\nSpinner 6 : "+ String.valueOf(spinner6.getSelectedItem()) +
+                                "\nSpinner 7 : "+ String.valueOf(spinner7.getSelectedItem()),
                         Toast.LENGTH_SHORT).show();
             }
 
