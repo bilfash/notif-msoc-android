@@ -4,9 +4,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -18,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,9 +31,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -39,8 +53,9 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class Login_AwalActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    SharedPreferences pref;
     private static final String LOGIN_URL =
-            "http://burhan.pe.hu";
+            "http://ghulam.hol.es/api/v1/login";
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -65,10 +80,16 @@ public class Login_AwalActivity extends AppCompatActivity implements LoaderCallb
     private View mProgressView;
     private View mLoginFormView;
 
+    private static final String TAG = "LoginAwalActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login__awal);
+
+        pref = getSharedPreferences("MyPref",
+                Context.MODE_PRIVATE);
+
         // Set up the login form.
         mUsernameView = (AutoCompleteTextView) findViewById(R.id.username);
         populateAutoComplete();
@@ -299,12 +320,56 @@ public class Login_AwalActivity extends AppCompatActivity implements LoaderCallb
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
+        private final String mUsername;
         private final String mPassword;
-        Connect ruc = new Connect();
+        private final OkHttpClient client = new OkHttpClient();
+
+        public boolean login() throws Exception {
+            RequestBody formBody = new FormBody.Builder()
+                    .add("username", mUsername)
+                    .add("password", mPassword)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(LOGIN_URL)
+                    .post(formBody)
+                    .build();
+
+            // Execute the request and retrieve the response.
+            // TODO: 8/1/2016 add conn error handler
+            Response response = client.newCall(request).execute();
+            ResponseBody body = response.body();
+            String json = body.string();
+
+            Log.d(TAG, String.valueOf(response));
+            Log.d(TAG, json);
+
+            if (!response.isSuccessful()) return false;
+
+            HashMap<String, String> map = new HashMap<String, String>();
+            JSONObject jObject = new JSONObject(json);
+            Iterator<?> keys = jObject.keys();
+
+            try {
+                while( keys.hasNext() ){
+                    String key = (String)keys.next();
+                    String value = jObject.getString(key);
+                    map.put(key, value);
+                }
+            }
+            catch (JSONException e)
+            {
+
+            }
+
+            SharedPreferences.Editor editor = pref.edit();
+            Log.d(TAG, map.get("result"));
+            editor.putString("token", map.get("result"));
+            editor.commit();
+            return true;
+        }
 
         UserLoginTask(String username, String password) {
-            mEmail = username;
+            mUsername = username;
             mPassword = password;
         }
 
@@ -312,35 +377,32 @@ public class Login_AwalActivity extends AppCompatActivity implements LoaderCallb
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            HashMap<String, String> data = new HashMap<String,String>();
-            data.put("username", mEmail);
-            data.put("password", mPassword);
-
-            String result = ruc.sendPostRequest(LOGIN_URL,data);
-            //if sukses true else false
-
-            /*try {
-                return login(result); //output true
-            } catch (IOException e) {
-                return getResources().getString(R.string.connection_error);
-            } catch (XmlPullParserException e) {
-                return getResources().getString(R.string.xml_error);
-            }*/
+            /*HashMap<String, String> data = new HashMap<String,String>();
+            data.put("username", mUsername);
+            data.put("password", mPassword);*/
 
             try {
+                this.login();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //if sukses true else false
+
+/*            try {
                 // Simulate network access.
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
-            }
+            }*/
 
-            for (String credential : DUMMY_CREDENTIALS) {
+            /*for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
+                if (pieces[0].equals(mUsername)) {
                     // Account exists, return true if the password matches.
                     return pieces[1].equals(mPassword);
                 }
-            }
+            }*/
 
             // TODO: register the new account here.
             return false;

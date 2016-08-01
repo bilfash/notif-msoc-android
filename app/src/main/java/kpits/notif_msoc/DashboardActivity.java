@@ -4,9 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -29,10 +31,11 @@ import com.google.firebase.messaging.FirebaseMessaging;
 public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    SharedPreferences pref;
     public static final String WIFI = "Wi-Fi";
     public static final String ANY = "Any";
     private static final String URL =
-            "http://burhan.pe.hu";
+            "http://ghulam.hol.es";
 
     // Whether there is a Wi-Fi connection.
     private static boolean wifiConnected = false;
@@ -54,6 +57,14 @@ public class DashboardActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        pref = getSharedPreferences("MyPref",
+                Context.MODE_PRIVATE);
+
+        if (pref.contains("token")) {
+            Toast t1 = Toast.makeText(getApplicationContext(), pref.getString("token", null), Toast.LENGTH_SHORT);
+            t1.show();
+        }
 
         if (getIntent().getExtras() != null) {
             for (String key : getIntent().getExtras().keySet()) {
@@ -100,6 +111,74 @@ public class DashboardActivity extends AppCompatActivity
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        // Gets the user's network preference settings
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // Retrieves a string value for the preferences. The second parameter
+        // is the default value to use if a preference value is not found.
+        sPref = sharedPrefs.getString("listPref", "Wi-Fi");
+
+        updateConnectedFlags();
+
+        // Only loads the page if refreshDisplay is true. Otherwise, keeps previous
+        // display. For example, if the user has set "Wi-Fi only" in prefs and the
+        // device loses its Wi-Fi connection midway through the user using the app,
+        // you don't want to refresh the display--this would force the display of
+        // an error page instead of stackoverflow.com content.
+        if (refreshDisplay) {
+            loadPage();
+        }
+    }
+
+    // Uses AsyncTask subclass to download the XML feed from stackoverflow.com.
+    // This avoids UI lock up. To prevent network operations from
+    // causing a delay that results in a poor user experience, always perform
+    // network operations on a separate thread from the UI.
+    private void loadPage() {
+        if (((sPref.equals(ANY)) && (wifiConnected || mobileConnected))
+                || ((sPref.equals(WIFI)) && (wifiConnected))) {
+            mWebView = (WebView) findViewById(R.id.webview);
+            // Force links and redirects to open in the WebView instead of in a browser
+            mWebView.setWebViewClient(new WebViewClient());
+            // Enable Javascript
+            WebSettings webSettings = mWebView.getSettings();
+            webSettings.setJavaScriptEnabled(true);
+            mWebView.loadUrl("http://www.ghulam.hol.es/picdashboard");
+        } else {
+            showErrorPage();
+        }
+    }
+
+    // Displays an error if the app is unable to load content.
+    private void showErrorPage() {
+        setContentView(R.layout.activity_dashboard);
+
+        // The specified network connection is not available. Displays error message.
+        WebView myWebView = (WebView) findViewById(R.id.webview);
+        myWebView.loadData(getResources().getString(R.string.connection_error),
+                "text/html", null);
+    }
+
+    // Checks the network connection and sets the wifiConnected and mobileConnected
+    // variables accordingly.
+    private void updateConnectedFlags() {
+        ConnectivityManager connMgr =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeInfo = connMgr.getActiveNetworkInfo();
+        if (activeInfo != null && activeInfo.isConnected()) {
+            wifiConnected = activeInfo.getType() == ConnectivityManager.TYPE_WIFI;
+            mobileConnected = activeInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+        } else {
+            wifiConnected = false;
+            mobileConnected = false;
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -141,6 +220,10 @@ public class DashboardActivity extends AppCompatActivity
         }
         else if (id == R.id.token) {
             Log.d(TAG, "InstanceID token: " + FirebaseInstanceId.getInstance().getToken());
+            return true;
+        }
+        else if (id == R.id.refresh) {
+            loadPage();
             return true;
         }
 
@@ -193,6 +276,8 @@ public class DashboardActivity extends AppCompatActivity
                     (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
+
+            Toast.makeText(context, R.string.wifi_connected, Toast.LENGTH_SHORT).show();
             // Checks the user prefs and the network connection. Based on the result, decides
             // whether
             // to refresh the display or keep the current display.
