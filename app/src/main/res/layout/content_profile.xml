@@ -16,10 +16,9 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:id="@+id/imageView2"
-        android:background="#ff0000"
+        android:src="@drawable/icon"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:layout_centerHorizontal="true" />
 
     <AutoCompleteTextView
         android:id="@+id/textView7"
@@ -29,7 +28,7 @@
         android:maxLines="1"
         android:singleLine="true"
         android:inputType="text"
-        android:layout_marginTop="150dp" />
+        android:layout_marginTop="170dp" />
 
     <AutoCompleteTextView
         android:id="@+id/textView8"
@@ -39,7 +38,7 @@
         android:maxLines="1"
         android:singleLine="true"
         android:inputType="text"
-        android:layout_marginTop="190dp" />
+        android:layout_marginTop="210dp" />
 
     <AutoCompleteTextView
         android:id="@+id/textView9"
@@ -49,7 +48,7 @@
         android:maxLines="1"
         android:singleLine="true"
         android:inputType="text"
-        android:layout_marginTop="230dp" />
+        android:layout_marginTop="250dp" />
 
     <AutoCompleteTextView
         android:id="@+id/textView10"
@@ -59,7 +58,7 @@
         android:maxLines="1"
         android:singleLine="true"
         android:inputType="text"
-        android:layout_marginTop="270dp" />
+        android:layout_marginTop="290dp" />
 
     <AutoCompleteTextView
         android:id="@+id/textView11"
@@ -69,7 +68,7 @@
         android:maxLines="1"
         android:singleLine="true"
         android:inputType="text"
-        android:layout_marginTop="310dp" />
+        android:layout_marginTop="330dp" />
 
     <AutoCompleteTextView
         android:id="@+id/textView12"
@@ -79,14 +78,24 @@
         android:maxLines="1"
         android:singleLine="true"
         android:inputType="text"
-        android:layout_marginTop="350dp" />
+        android:layout_marginTop="370dp" />
 
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Submit"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="420dp"
+        android:onClick="setProfilePhoto"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btn_pick"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="120dp"
+        android:text="@string/change_image"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
