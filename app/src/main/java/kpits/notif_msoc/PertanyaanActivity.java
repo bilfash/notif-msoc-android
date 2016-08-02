@@ -119,7 +119,6 @@ public class PertanyaanActivity extends AppCompatActivity
 
     // add items into spinner dynamically
     public void PopulatePerangkatJaringan() {
-
         spinner2 = (Spinner) findViewById(R.id.spinner2);
         List<String> list = new ArrayList<String>();
         list.add("Router");
@@ -209,18 +208,39 @@ public class PertanyaanActivity extends AppCompatActivity
         spinner2.setAdapter(dataAdapter);
     }
 
+    public void PopulatePilih() {
+        spinner2 = (Spinner) findViewById(R.id.spinner2);
+        List<String> list = new ArrayList<String>();
+        spinner2.setVisibility(View.INVISIBLE);
+        spinner3.setVisibility(View.INVISIBLE);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter.notifyDataSetChanged();
+        spinner2.setAdapter(dataAdapter);
+    }
+
     public void PopulateLainnya() {
-        // Kasih TextBox
-//        spinner2 = (Spinner) findViewById(R.id.spinner2);
-//        List<String> list = new ArrayList<String>();
-//        list.add("list 1");
-//        list.add("list 2");
-//        list.add("list 3");
-//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-//                android.R.layout.simple_spinner_item, list);
-//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        dataAdapter.notifyDataSetChanged();
-//        spinner2.setAdapter(dataAdapter);
+        spinner2 = (Spinner) findViewById(R.id.spinner2);
+        List<String> list = new ArrayList<String>();
+        spinner2.setVisibility(View.INVISIBLE);
+        spinner3.setVisibility(View.INVISIBLE);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter.notifyDataSetChanged();
+        spinner2.setAdapter(dataAdapter);
+    }
+
+    public void PopulateLainnya2() {
+        spinner3 = (Spinner) findViewById(R.id.spinner3);
+        List<String> list = new ArrayList<String>();
+        spinner3.setVisibility(View.INVISIBLE);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter.notifyDataSetChanged();
+        spinner3.setAdapter(dataAdapter);
     }
 
     public void PopulateRouter() {
@@ -278,7 +298,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateUPS() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -289,6 +309,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateTransBackbone() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -299,7 +320,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateFOLastmile() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -310,7 +331,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateHUB() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -321,7 +342,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateBackhaul() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -332,7 +353,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateWareline() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -340,10 +361,10 @@ public class PertanyaanActivity extends AppCompatActivity
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateBerapaLama() {
+    public void PopulateListrikPadam() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -354,7 +375,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateKonsolidasi() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -365,7 +386,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateAplikasiSIAK() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -376,7 +397,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateServerSIAK() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -387,7 +408,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateListrik() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -398,7 +419,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateRelokasi() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -409,7 +430,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateRenovasi() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -420,7 +441,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateKerusakan() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -431,7 +452,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateServer() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -442,7 +463,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateSwitch() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -453,7 +474,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateUPSKTP() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -464,7 +485,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateFingerPrint() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -475,7 +496,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateKamera() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -486,7 +507,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulatePrinter() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -497,7 +518,7 @@ public class PertanyaanActivity extends AppCompatActivity
     public void PopulateAplikasi() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         List<String> list = new ArrayList<String>();
-        list.add("");
+        spinner3.setVisibility(View.INVISIBLE);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -609,9 +630,11 @@ public class PertanyaanActivity extends AppCompatActivity
                                        long arg3) {
                 // TODO Auto-generated method stub
                 String sp1= String.valueOf(spinner1.getSelectedItem());
+                spinner2.setVisibility(View.VISIBLE);
+                spinner3.setVisibility(View.VISIBLE);
                 Toast.makeText(PertanyaanActivity.this, sp1, Toast.LENGTH_SHORT).show();
                 if(sp1.contentEquals("Pilih")) {
-
+                    PopulatePilih();
                 }
                 else if(sp1.contentEquals("Perangkat Jaringan")) {
                     PopulatePerangkatJaringan();
@@ -649,6 +672,7 @@ public class PertanyaanActivity extends AppCompatActivity
                                        long arg3) {
                 // TODO Auto-generated method stub
                 String sp2= String.valueOf(spinner2.getSelectedItem());
+                spinner3.setVisibility(View.VISIBLE);
                 Toast.makeText(PertanyaanActivity.this, sp2, Toast.LENGTH_SHORT).show();
 
                 if(sp2.contentEquals("Router")) {
@@ -681,8 +705,8 @@ public class PertanyaanActivity extends AppCompatActivity
                 else if(sp2.contentEquals("Wareline")) {
                     PopulateWareline();
                 }
-                else if(sp2.contentEquals("Berapa Lama")) {
-                    PopulateBerapaLama();
+                else if(sp2.contentEquals("Listrik Padam")) {
+                    PopulateListrikPadam();
                 }
                 else if(sp2.contentEquals("SIAK Konsolidasi")) {
                     PopulateKonsolidasi();
@@ -727,7 +751,7 @@ public class PertanyaanActivity extends AppCompatActivity
                     PopulateAplikasi();
                 }
                 else if(sp2.contentEquals("Lainnya")) {
-                    PopulateLainnya();
+                    PopulateLainnya2();
                 }
             }
 
@@ -744,6 +768,7 @@ public class PertanyaanActivity extends AppCompatActivity
                                        long arg3) {
                 // TODO Auto-generated method stub
                 String sp3= String.valueOf(spinner3.getSelectedItem());
+                spinner3.setVisibility(View.VISIBLE);
                 Toast.makeText(PertanyaanActivity.this, sp3, Toast.LENGTH_SHORT).show();
 
                 if(sp3.contentEquals("Kabupaten")) {
