@@ -16,22 +16,12 @@
 
 package kpits.notif_msoc;
 
-import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.Log;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
-import java.io.IOException;
-
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 //TODO : Intent Register Service
 
@@ -51,7 +41,12 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     @Override
     public void onTokenRefresh() {
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // Fetch updated Instance ID token and notify of changes
+        Intent intent = new Intent(this, RegistrationIntentService.class);
+        startService(intent);
+
+        /*pref = PreferenceManager.getDefaultSharedPreferences(this);
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
@@ -64,7 +59,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return;
+        return;*/
     }
     // [END refresh_token]
 
@@ -76,7 +71,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
      *
      * @param fToken The new token.
      */
-    private void sendRegistrationToServer(String fToken) throws IOException {
+    /*private void sendRegistrationToServer(String fToken) throws IOException {
         // TODO: Implement this method to send token to your app server.
         pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         if (pref.contains("sToken")) {
@@ -108,5 +103,5 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
                 editor.commit();
             }
         }
-    }
+    }*/
 }

@@ -36,11 +36,11 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_awal"
             android:theme="@style/FullscreenTheme">
-            <intent-filter>
+<!--            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".Login_AwalActivity"
@@ -84,6 +84,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".DashboardActivity" />
         </activity>
+
+        <service android:name=".RegistrationIntentService" android:exported="false"/>
         <!-- [START firebase_service] -->
         <service
             android:name=".MyFirebaseMessagingService">
