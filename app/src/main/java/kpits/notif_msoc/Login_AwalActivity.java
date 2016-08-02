@@ -31,6 +31,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,8 +56,8 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class Login_AwalActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     SharedPreferences pref;
-    private static final String LOGIN_URL =
-            "http://ghulam.hol.es/api/v1/login";
+    private static final String LOGIN_URL = "http://notif-msoc.esy.es/api/v1/login";
+    private static final String SEND_TOKEN_URL = "http://notif-msoc.esy.es/api/v1/send_token";
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -66,9 +68,9 @@ public class Login_AwalActivity extends AppCompatActivity implements LoaderCallb
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
+/*    private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world", "test:test"
-    };
+    };*/
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -87,8 +89,7 @@ public class Login_AwalActivity extends AppCompatActivity implements LoaderCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login__awal);
 
-        pref = getSharedPreferences("MyPref",
-                Context.MODE_PRIVATE);
+        pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
         // Set up the login form.
         mUsernameView = (AutoCompleteTextView) findViewById(R.id.username);
@@ -324,6 +325,43 @@ public class Login_AwalActivity extends AppCompatActivity implements LoaderCallb
         private final String mPassword;
         private final OkHttpClient client = new OkHttpClient();
 
+        public boolean send_token() throws Exception {
+            String fToken = FirebaseInstanceId.getInstance().getToken();
+            Log.d(TAG, "InstanceID token: " + fToken);
+            if (pref.contains("sToken")) {
+                String sToken = pref.getString("sToken", null);
+                String idUser = pref.getString("idUser", null);
+
+                RequestBody formBody = new FormBody.Builder()
+                        .add("token", sToken)
+                        .add("token_device", fToken)
+                        .add("id_user", idUser)
+                        .build();
+                Request request = new Request.Builder()
+                        .url(SEND_TOKEN_URL)
+                        .post(formBody)
+                        .build();
+
+                // Execute the request and retrieve the response.
+                // TODO: 8/1/2016 add conn error handler
+                Response response = client.newCall(request).execute();
+                ResponseBody body = response.body();
+                String json = body.string();
+
+                Log.d(TAG, "lihat sini" + String.valueOf(response));
+                Log.d(TAG, json);
+
+                if (response.isSuccessful()) {
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("fToken", fToken);
+                    editor.commit();
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+
         public boolean login() throws Exception {
             RequestBody formBody = new FormBody.Builder()
                     .add("username", mUsername)
@@ -340,8 +378,8 @@ public class Login_AwalActivity extends AppCompatActivity implements LoaderCallb
             ResponseBody body = response.body();
             String json = body.string();
 
-            Log.d(TAG, String.valueOf(response));
-            Log.d(TAG, json);
+//            Log.d(TAG, String.valueOf(response));
+//            Log.d(TAG, json);
 
             if (!response.isSuccessful()) return false;
 
@@ -362,9 +400,11 @@ public class Login_AwalActivity extends AppCompatActivity implements LoaderCallb
             }
 
             SharedPreferences.Editor editor = pref.edit();
-            Log.d(TAG, map.get("result"));
-            editor.putString("token", map.get("result"));
+            Log.d(TAG, "login token: " + map.get("result"));
+            editor.putString("sToken", map.get("result"));
+            editor.putString("idUser", map.get("id_user"));
             editor.commit();
+            send_token();
             return true;
         }
 
@@ -382,8 +422,9 @@ public class Login_AwalActivity extends AppCompatActivity implements LoaderCallb
             data.put("password", mPassword);*/
 
             try {
-                this.login();
-                return true;
+                if(this.login()) {
+                    return true;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

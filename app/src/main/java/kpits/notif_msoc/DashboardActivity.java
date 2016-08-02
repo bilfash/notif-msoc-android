@@ -58,11 +58,15 @@ public class DashboardActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        pref = getSharedPreferences("MyPref",
-                Context.MODE_PRIVATE);
+        pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
-        if (pref.contains("token")) {
-            Toast t1 = Toast.makeText(getApplicationContext(), pref.getString("token", null), Toast.LENGTH_SHORT);
+        if (pref.contains("sToken")) {
+            Toast t1 = Toast.makeText(getApplicationContext(), pref.getString("sToken", null), Toast.LENGTH_SHORT);
+            t1.show();
+        }
+
+        if (pref.contains("idUser")) {
+            Toast t1 = Toast.makeText(getApplicationContext(), pref.getString("idUser", null), Toast.LENGTH_SHORT);
             t1.show();
         }
 
@@ -154,8 +158,6 @@ public class DashboardActivity extends AppCompatActivity
 
     // Displays an error if the app is unable to load content.
     private void showErrorPage() {
-        setContentView(R.layout.activity_dashboard);
-
         // The specified network connection is not available. Displays error message.
         WebView myWebView = (WebView) findViewById(R.id.webview);
         myWebView.loadData(getResources().getString(R.string.connection_error),

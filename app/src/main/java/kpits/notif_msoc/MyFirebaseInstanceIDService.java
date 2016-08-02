@@ -16,15 +16,31 @@
 
 package kpits.notif_msoc;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
+import java.io.IOException;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+
+//TODO : Intent Register Service
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
+    SharedPreferences pref;
     private static final String TAG = "MyFirebaseIIDService";
+    private final OkHttpClient client = new OkHttpClient();
+    private static final String SEND_TOKEN_URL = "http://notif-msoc.esy.es/api/v1/send_token";
 
     /**
      * Called if InstanceID token is updated. This may occur if the security of
@@ -32,8 +48,10 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
      * is initially generated so this is where you would retrieve the token.
      */
     // [START refresh_token]
+
     @Override
     public void onTokenRefresh() {
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
@@ -41,7 +59,12 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-        sendRegistrationToServer(refreshedToken);
+        try {
+            sendRegistrationToServer(refreshedToken);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return;
     }
     // [END refresh_token]
 
@@ -51,9 +74,39 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
      * Modify this method to associate the user's FCM InstanceID token with any server-side account
      * maintained by your application.
      *
-     * @param token The new token.
+     * @param fToken The new token.
      */
-    private void sendRegistrationToServer(String token) {
+    private void sendRegistrationToServer(String fToken) throws IOException {
         // TODO: Implement this method to send token to your app server.
+        pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        if (pref.contains("sToken")) {
+            String sToken = pref.getString("sToken", null);
+            String idUser = pref.getString("idUser", null);
+
+            RequestBody formBody = new FormBody.Builder()
+                    .add("token", sToken)
+                    .add("token_device", fToken)
+                    .add("id_user", idUser)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(SEND_TOKEN_URL)
+                    .post(formBody)
+                    .build();
+
+            // Execute the request and retrieve the response.
+            // TODO: 8/1/2016 add conn error handler
+            Response response = client.newCall(request).execute();
+            ResponseBody body = response.body();
+            String json = body.string();
+
+            Log.d(TAG, "lihat sini" + String.valueOf(response));
+            Log.d(TAG, json);
+
+            if (response.isSuccessful()) {
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("fToken", fToken);
+                editor.commit();
+            }
+        }
     }
 }
