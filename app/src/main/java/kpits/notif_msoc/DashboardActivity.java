@@ -34,8 +34,6 @@ public class DashboardActivity extends AppCompatActivity
     SharedPreferences pref;
     public static final String WIFI = "Wi-Fi";
     public static final String ANY = "Any";
-    private static final String URL =
-            "http://ghulam.hol.es";
 
     // Whether there is a Wi-Fi connection.
     private static boolean wifiConnected = false;
@@ -153,7 +151,7 @@ public class DashboardActivity extends AppCompatActivity
             // Enable Javascript
             WebSettings webSettings = mWebView.getSettings();
             webSettings.setJavaScriptEnabled(true);
-            mWebView.loadUrl("http://www.ghulam.hol.es/picdashboard");
+            mWebView.loadUrl("http://www.notif-msoc.esy.es/picdashboard");
         } else {
             showErrorPage();
         }
