@@ -17,20 +17,17 @@
 package kpits.notif_msoc;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 
 import com.google.firebase.iid.FirebaseInstanceIdService;
-
-import okhttp3.OkHttpClient;
 
 //TODO : Intent Register Service
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
-    SharedPreferences pref;
-    private static final String TAG = "MyFirebaseIIDService";
-    private final OkHttpClient client = new OkHttpClient();
-    private static final String SEND_TOKEN_URL = "http://notif-msoc.esy.es/api/v1/send_token";
+//    SharedPreferences pref;
+//    private static final String TAG = "MyFirebaseIIDService";
+//    private final OkHttpClient client = new OkHttpClient();
+//    private static final String SEND_TOKEN_URL = "http://notif-msoc.esy.es/api/v1/send_token";
 
     /**
      * Called if InstanceID token is updated. This may occur if the security of

@@ -1,14 +1,21 @@
 package kpits.notif_msoc;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 /**
  * Created by Danang on 8/2/2016.
@@ -19,6 +26,8 @@ public class RegistrationIntentService extends IntentService {
     private static final String TAG = "RegIntentService";
     public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
     public static final String FCM_TOKEN = "FCMToken";
+    private final OkHttpClient client = new OkHttpClient();
+    private static final String SEND_TOKEN_URL = "http://notif-msoc.esy.es/api/v1/send_token";
 
     public RegistrationIntentService() {
         super(TAG);
@@ -30,17 +39,17 @@ public class RegistrationIntentService extends IntentService {
         FirebaseInstanceId instanceID = FirebaseInstanceId.getInstance();
         String senderId = getResources().getString(R.string.gcm_defaultSenderId);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
         try {
             // request token that will be used by the server to send push notifications
-            String token = instanceID.getToken();
-            Log.d(TAG, "FCM Registration Token: " + token);
+            String fToken = instanceID.getToken();
+            Log.d(TAG, "FCM Registration Token: " + fToken);
 
             // save token
-            sharedPreferences.edit().putString(FCM_TOKEN, token).apply();
+            sharedPreferences.edit().putString("fToken", fToken).apply();
             // pass along this data
-            sendRegistrationToServer(token);
+            sendRegistrationToServer(fToken);
         } catch (IOException e) {
             Log.d(TAG, "Failed to complete token refresh", e);
             // If an exception happens while fetching the new token or updating our registration data
@@ -49,11 +58,41 @@ public class RegistrationIntentService extends IntentService {
         }
     }
 
-    private void sendRegistrationToServer(String token) throws IOException {
+    private void sendRegistrationToServer(String fToken) throws IOException {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+
         // send network request
+        if (sharedPreferences.contains("sToken")) {
+            String sToken = sharedPreferences.getString("sToken", null);
+            String idUser = sharedPreferences.getString("idUser", null);
+
+            RequestBody formBody = new FormBody.Builder()
+                    .add("token", sToken)
+                    .add("token_device", fToken)
+                    .add("id_user", idUser)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(SEND_TOKEN_URL)
+                    .post(formBody)
+                    .build();
+
+            // Execute the request and retrieve the response.
+            // TODO: 8/1/2016 add conn error handler
+            Response response = client.newCall(request).execute();
+            ResponseBody body = response.body();
+            String json = body.string();
+
+            Log.d(TAG, "lihat sini" + String.valueOf(response));
+            Log.d(TAG, json);
+
+            if (response.isSuccessful()) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("fToken", fToken);
+                editor.apply();
+            }
+        }
 
         // if registration sent was successful, store a boolean that indicates whether the generated token has been sent to server
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, true).apply();
     }
 }

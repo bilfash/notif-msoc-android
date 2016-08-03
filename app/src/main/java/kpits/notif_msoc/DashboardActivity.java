@@ -82,6 +82,9 @@ public class DashboardActivity extends AppCompatActivity
         receiver = new NetworkReceiver();
         this.registerReceiver(receiver, filter);
 
+        Intent intent = new Intent(this, RegistrationIntentService.class);
+        startService(intent);
+
         setContentView(R.layout.activity_dashboard);
 
         mWebView = (WebView) findViewById(R.id.webview);
