@@ -235,5 +235,6 @@
     <string name="connection_error">Unable to load content. Check your network connection.</string>
     <string name="xml_error">Error parsing XML.</string>
     <string name="change_image">Change Image</string>
+    <string name="title_activity_base">BaseActivity</string>
 
 </resources>
