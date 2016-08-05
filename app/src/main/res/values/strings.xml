@@ -151,5 +151,6 @@
     <string name="change_image">Change Image</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="logo_telkom">logo telkom</string>
+    <string name="title_activity_history">HistoryActivity</string>
 
 </resources>

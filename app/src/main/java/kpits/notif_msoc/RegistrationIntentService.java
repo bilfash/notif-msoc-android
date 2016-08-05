@@ -82,8 +82,8 @@ public class RegistrationIntentService extends IntentService {
             ResponseBody body = response.body();
             String json = body.string();
 
-            Log.d(TAG, "lihat sini" + String.valueOf(response));
-            Log.d(TAG, json);
+            Log.d(TAG, "respon send" + String.valueOf(response));
+            Log.d(TAG, "isi send" + json);
 
             if (response.isSuccessful()) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();

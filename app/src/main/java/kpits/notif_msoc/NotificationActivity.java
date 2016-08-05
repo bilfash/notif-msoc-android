@@ -66,7 +66,7 @@ public class NotificationActivity extends BaseActivity
     protected void onResume() {
         super.onResume();
         // to check current activity in the navigation drawer
-        navigationView.getMenu().getItem(2).setChecked(true);
+        navigationView.getMenu().getItem(3).setChecked(true);
     }
 
     @Override

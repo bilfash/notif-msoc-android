@@ -348,8 +348,8 @@ public class Login_AwalActivity extends AppCompatActivity implements LoaderCallb
                 ResponseBody body = response.body();
                 String json = body.string();
 
-                Log.d(TAG, "lihat sini" + String.valueOf(response));
-                Log.d(TAG, json);
+                Log.d(TAG, "respon send " + String.valueOf(response));
+                Log.d(TAG, "isi send " + json);
 
                 if (response.isSuccessful()) {
                     SharedPreferences.Editor editor = pref.edit();
@@ -378,8 +378,8 @@ public class Login_AwalActivity extends AppCompatActivity implements LoaderCallb
             ResponseBody body = response.body();
             String json = body.string();
 
-//            Log.d(TAG, String.valueOf(response));
-//            Log.d(TAG, json);
+            Log.d(TAG, "respon login " + String.valueOf(response));
+            Log.d(TAG, "isi login " + json);
 
             if (!response.isSuccessful()) return false;
 
@@ -404,10 +404,11 @@ public class Login_AwalActivity extends AppCompatActivity implements LoaderCallb
             }
 
             SharedPreferences.Editor editor = pref.edit();
-            Log.d(TAG, "login token: " + map.get("result"));
+            Log.d(TAG, "login token: " + map.get("result") + map.get("id_user"));
             editor.putString("sToken", map.get("result"));
             editor.putString("idUser", map.get("id_user"));
             editor.putString("mUser", mUsername);
+            editor.commit();
             send_token();
             return true;
         }

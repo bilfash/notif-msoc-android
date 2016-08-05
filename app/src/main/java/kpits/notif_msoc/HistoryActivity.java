@@ -3,7 +3,6 @@ package kpits.notif_msoc;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -14,7 +13,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -24,7 +22,7 @@ import android.widget.Toast;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-public class DashboardActivity extends BaseActivity
+public class HistoryActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     SharedPreferences pref;
@@ -52,50 +50,14 @@ public class DashboardActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+//        setContentView(R.layout.activity_history);
 
-        if (pref.contains("sToken")) {
-            Toast t1 = Toast.makeText(getApplicationContext(), pref.getString("sToken", null), Toast.LENGTH_SHORT);
-            t1.show();
-        }
-
-        if (pref.contains("idUser")) {
-            Toast t1 = Toast.makeText(getApplicationContext(), pref.getString("idUser", null), Toast.LENGTH_SHORT);
-            t1.show();
-        }
-
-        if (getIntent().getExtras() != null) {
-            for (String key : getIntent().getExtras().keySet()) {
-                String value = getIntent().getExtras().getString(key);
-                Log.d(TAG, "Key: " + key + " Value: " + value);
-            }
-        }
-
-        // Register BroadcastReceiver to track connection changes.
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        receiver = new NetworkReceiver();
-        this.registerReceiver(receiver, filter);
-
-        Intent intent = new Intent(this, RegistrationIntentService.class);
-        startService(intent);
-
-//        setContentView(R.layout.activity_dashboard);
-
-        getLayoutInflater().inflate(R.layout.activity_dashboard, frameLayout);
+        getLayoutInflater().inflate(R.layout.activity_history, frameLayout);
 
         /**
          * Setting title
          */
-        setTitle("Dashboard");
-
-
-//        mWebView = (WebView) findViewById(R.id.webview);
-//        // Force links and redirects to open in the WebView instead of in a browser
-//        mWebView.setWebViewClient(new WebViewClient());
-//        // Enable Javascript
-//        WebSettings webSettings = mWebView.getSettings();
-//        webSettings.setJavaScriptEnabled(true);
-//        mWebView.loadUrl("http://www.notif-msoc.esy.es/picdashboard");
+        setTitle("History");
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -123,7 +85,7 @@ public class DashboardActivity extends BaseActivity
     protected void onResume() {
         super.onResume();
         // to check current activity in the navigation drawer
-        navigationView.getMenu().getItem(0).setChecked(true);
+        navigationView.getMenu().getItem(2).setChecked(true);
     }
 
     @Override
@@ -198,11 +160,8 @@ public class DashboardActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-//            super.onBackPressed();
-            Intent mainActivity = new Intent(Intent.ACTION_MAIN);
-            mainActivity.addCategory(Intent.CATEGORY_HOME);
-            mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(mainActivity);
+            super.onBackPressed();
+            startActivity(new Intent(HistoryActivity.this, DashboardActivity.class));
             finish();
         }
     }
@@ -210,10 +169,7 @@ public class DashboardActivity extends BaseActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        /*getMenuInflater().inflate(R.menu.menu_dashboard, menu);*/
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_dashboard, menu);
+        getMenuInflater().inflate(R.menu.history, menu);
         return true;
     }
 
@@ -255,11 +211,11 @@ public class DashboardActivity extends BaseActivity
 //        // Handle navigation view item clicks here.
 //        int id = item.getItemId();
 //
-//        if (id == R.id.nav_dashboard) {
+//        if (id == R.id.nav_camera) {
 //            // Handle the camera action
-//        } else if (id == R.id.nav_profile) {
+//        } else if (id == R.id.nav_gallery) {
 //
-//        } else if (id == R.id.nav_notification) {
+//        } else if (id == R.id.nav_slideshow) {
 //
 //        } else if (id == R.id.nav_manage) {
 //
@@ -272,11 +228,6 @@ public class DashboardActivity extends BaseActivity
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        drawer.closeDrawer(GravityCompat.START);
 //        return true;
-//    }
-
-//    public void goToPertanyaan(View view) {
-//        Intent intent = new Intent(this, PertanyaanActivity.class);
-//        startActivity(intent);
 //    }
 
     /**
