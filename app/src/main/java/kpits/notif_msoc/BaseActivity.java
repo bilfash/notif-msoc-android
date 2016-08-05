@@ -102,12 +102,6 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_notification) {
             startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
