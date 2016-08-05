@@ -29,7 +29,7 @@ public class HistoryActivity extends BaseActivity
     public static final String WIFI = "Wi-Fi";
     public static final String ANY = "Any";
 
-    String URLhist = "http://www.notif-msoc.esy.es/picdashboard/" + pref.getString("idUser", null);
+    String URLhist;
 
     // Whether there is a Wi-Fi connection.
     private static boolean wifiConnected = false;
@@ -52,6 +52,8 @@ public class HistoryActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+
 //        setContentView(R.layout.activity_history);
 
         getLayoutInflater().inflate(R.layout.activity_history, frameLayout);
@@ -60,6 +62,8 @@ public class HistoryActivity extends BaseActivity
          * Setting title
          */
         setTitle("History");
+
+        URLhist = "http://www.notif-msoc.esy.es/history_apps/" + pref.getString("idUser", null);
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);

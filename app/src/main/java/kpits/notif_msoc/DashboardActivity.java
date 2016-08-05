@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,6 +24,13 @@ import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class DashboardActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,6 +49,8 @@ public class DashboardActivity extends BaseActivity
     // The user's current network preference setting.
     public static String sPref = null;
 
+    private final OkHttpClient client = new OkHttpClient();
+
     // The BroadcastReceiver that tracks network connectivity changes.
     private NetworkReceiver receiver = new NetworkReceiver();
 
@@ -48,9 +58,16 @@ public class DashboardActivity extends BaseActivity
 
     private WebView mWebView;
 
+    private String URLdash = "http://notif-msoc.esy.es/api/v1/dashboardAPI";
+    private String sToken;
+    private String idUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
@@ -88,6 +105,13 @@ public class DashboardActivity extends BaseActivity
          */
         setTitle("Dashboard");
 
+        sToken = pref.getString("sToken", null);
+        idUser = pref.getString("idUser", null);
+        try {
+            loadPage();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 //        mWebView = (WebView) findViewById(R.id.webview);
 //        // Force links and redirects to open in the WebView instead of in a browser
@@ -145,7 +169,11 @@ public class DashboardActivity extends BaseActivity
         // you don't want to refresh the display--this would force the display of
         // an error page instead of stackoverflow.com content.
         if (refreshDisplay) {
-            loadPage();
+            try {
+                loadPage();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -153,7 +181,29 @@ public class DashboardActivity extends BaseActivity
     // This avoids UI lock up. To prevent network operations from
     // causing a delay that results in a poor user experience, always perform
     // network operations on a separate thread from the UI.
-    private void loadPage() {
+    private void loadPage() throws Exception {
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("token", sToken)
+                .add("id_user", idUser)
+                .build();
+        Request request = new Request.Builder()
+                .url(URLdash)
+                .post(formBody)
+                .build();
+
+        // Execute the request and retrieve the response.
+        // TODO: 8/1/2016 add conn error handler
+        Response response = client.newCall(request).execute();
+        ResponseBody body = response.body();
+        String json = body.string();
+
+        Log.d(TAG, "respon send " + String.valueOf(response));
+        Log.d(TAG, "isi send " + json);
+
+        if (!response.isSuccessful()) {
+            showErrorPage();
+        }
         if (((sPref.equals(ANY)) && (wifiConnected || mobileConnected))
                 || ((sPref.equals(WIFI)) && (wifiConnected))) {
             mWebView = (WebView) findViewById(R.id.webview);
@@ -162,7 +212,11 @@ public class DashboardActivity extends BaseActivity
             // Enable Javascript
             WebSettings webSettings = mWebView.getSettings();
             webSettings.setJavaScriptEnabled(true);
-            mWebView.loadUrl("http://www.notif-msoc.esy.es/picdashboard");
+            webSettings.setAllowFileAccessFromFileURLs(true);
+            webSettings.setAllowUniversalAccessFromFileURLs(true);
+//            mWebView.loadUrl("http://www.notif-msoc.esy.es/picdashboard");
+            mWebView.loadData(json,
+                    "text/html", null);
         } else {
             showErrorPage();
         }
@@ -242,7 +296,11 @@ public class DashboardActivity extends BaseActivity
             return true;
         }
         else if (id == R.id.refresh) {
-            loadPage();
+            try {
+                loadPage();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return true;
         }
 
