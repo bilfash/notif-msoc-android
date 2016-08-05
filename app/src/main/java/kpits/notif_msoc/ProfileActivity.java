@@ -38,20 +38,20 @@ public class ProfileActivity extends BaseActivity
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-        imageView = (ImageView)findViewById(R.id.imageView2);
-        Button pickImage = (Button) findViewById(R.id.btn_pick);
+//        imageView = (ImageView)findViewById(R.id.imageView2);
+//        Button pickImage = (Button) findViewById(R.id.btn_pick);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        pickImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-            }
-        });
+//        pickImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+////                        .setAction("Action", null).show();
+//                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+//                photoPickerIntent.setType("image/*");
+//                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+//            }
+//        });
 
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
