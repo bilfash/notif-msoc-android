@@ -150,5 +150,6 @@
     <string name="xml_error">Error parsing XML.</string>
     <string name="change_image">Change Image</string>
     <string name="title_activity_base">BaseActivity</string>
+    <string name="logo_telkom">logo telkom</string>
 
 </resources>

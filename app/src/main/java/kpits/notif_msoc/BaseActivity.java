@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -28,12 +29,8 @@ public class BaseActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
-
-        TextView textView = (TextView) findViewById(R.id.mUserTextView);
-        textView.setText("Anu");
-
         pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        setContentView(R.layout.activity_base);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,6 +55,10 @@ public class BaseActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View header=navigationView.getHeaderView(0);
+        TextView textView = (TextView) header.findViewById(R.id.mUserTextView);
+        textView.setText(pref.getString("mUser", null));
     }
 
     @Override

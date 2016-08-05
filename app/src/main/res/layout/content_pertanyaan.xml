@@ -75,7 +75,7 @@
         android:layout_centerHorizontal="true"
         style="@android:style/Widget.Holo.Light.Spinner"
         android:spinnerMode="dialog"
-        android:layout_marginTop="240dp" />
+        android:layout_marginTop="250dp" />
 
     <Spinner
         android:id="@+id/spinner5"
@@ -85,7 +85,7 @@
         android:layout_centerHorizontal="true"
         style="@android:style/Widget.Holo.Light.Spinner"
         android:spinnerMode="dialog"
-        android:layout_marginTop="280dp" />
+        android:layout_marginTop="290dp" />
 
     <Spinner
         android:id="@+id/spinner6"
@@ -95,7 +95,7 @@
         android:layout_centerHorizontal="true"
         style="@android:style/Widget.Holo.Light.Spinner"
         android:spinnerMode="dialog"
-        android:layout_marginTop="320dp" />
+        android:layout_marginTop="330dp" />
 
     <Spinner
         android:id="@+id/spinner7"
@@ -105,7 +105,7 @@
         android:layout_centerHorizontal="true"
         style="@android:style/Widget.Holo.Light.Spinner"
         android:spinnerMode="dialog"
-        android:layout_marginTop="360dp" />
+        android:layout_marginTop="370dp" />
 
     <Button
         android:id="@+id/btnSubmit"
