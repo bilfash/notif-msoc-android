@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -275,10 +274,10 @@ public class DashboardActivity extends BaseActivity
 //        return true;
 //    }
 
-    public void goToPertanyaan(View view) {
-        Intent intent = new Intent(this, PertanyaanActivity.class);
-        startActivity(intent);
-    }
+//    public void goToPertanyaan(View view) {
+//        Intent intent = new Intent(this, PertanyaanActivity.class);
+//        startActivity(intent);
+//    }
 
     /**
      *
