@@ -75,11 +75,8 @@ public class NotificationActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-//            super.onBackPressed();
-            Intent mainActivity = new Intent(Intent.ACTION_MAIN);
-            mainActivity.addCategory(Intent.CATEGORY_HOME);
-            mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(mainActivity);
+            super.onBackPressed();
+            startActivity(new Intent(NotificationActivity.this, DashboardActivity.class));
             finish();
         }
     }

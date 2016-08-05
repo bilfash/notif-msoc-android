@@ -1,5 +1,6 @@
 package kpits.notif_msoc;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -66,6 +67,8 @@ public class PertanyaanActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            startActivity(new Intent(PertanyaanActivity.this, NotificationActivity.class));
+            finish();
         }
     }
 
