@@ -29,6 +29,8 @@ public class HistoryActivity extends BaseActivity
     public static final String WIFI = "Wi-Fi";
     public static final String ANY = "Any";
 
+    String URLhist = "http://www.notif-msoc.esy.es/picdashboard/" + pref.getString("idUser", null);
+
     // Whether there is a Wi-Fi connection.
     private static boolean wifiConnected = false;
     // Whether there is a mobile connection.
@@ -124,7 +126,8 @@ public class HistoryActivity extends BaseActivity
             // Enable Javascript
             WebSettings webSettings = mWebView.getSettings();
             webSettings.setJavaScriptEnabled(true);
-            mWebView.loadUrl("http://www.notif-msoc.esy.es/picdashboard");
+            mWebView.loadUrl(URLhist);
+            Log.d(TAG, "urlhist: " + URLhist);
         } else {
             showErrorPage();
         }

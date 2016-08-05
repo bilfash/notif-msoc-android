@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Notif-MSOC</string>
 
-    <string name="title_activity_awal">Lapor Dukcapil</string>
-    <string name="dummy_button">Login</string>
     <string name="dummy_content">Lapor\nDukcapil</string>
     <string name="title_activity_login__awal">Sign in</string>
 
@@ -11,7 +9,6 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Masuk</string>
-    <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">Incorrect Password or Username</string>
     <string name="error_field_required">This field is required</string>
@@ -19,10 +16,7 @@
         completions."
     </string>
 
-    <string name="nama_orangnya">orang</string>
-
     <string name="action_settings">Settings</string>
-    <string name="settings">Settings</string>
     <string name="refresh">Refresh</string>
     <string name="subs">Subs</string>
     <string name="token">Token</string>
@@ -101,7 +95,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_notification">Notification</string>
     <string name="title_activity_pertanyaan">Pertanyaan</string>
-    <string name="country_prompt">Choose a country</string>
 
     <string-array name="question_categories_arrays">
         <item>Pilih</item>
@@ -142,13 +135,9 @@
     <string name="prompt_mail">E-Mail</string>
 
     <!--  NetworkActivity -->
-    <string name="page_title">Newest StackOverflow questions tagged \'android\'</string>
-    <string name="updated">Last updated:</string>
     <string name="lost_connection">Lost connection.</string>
     <string name="wifi_connected">Wi-Fi reconnected.</string>
     <string name="connection_error">Unable to load content. Check your network connection.</string>
-    <string name="xml_error">Error parsing XML.</string>
-    <string name="change_image">Change Image</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="logo_telkom">logo telkom</string>
     <string name="title_activity_history">HistoryActivity</string>
