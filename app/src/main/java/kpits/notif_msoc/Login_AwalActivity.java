@@ -399,11 +399,15 @@ public class Login_AwalActivity extends AppCompatActivity implements LoaderCallb
 
             }
 
+            if(map.get("result") == null) {
+                return false;
+            }
+
             SharedPreferences.Editor editor = pref.edit();
             Log.d(TAG, "login token: " + map.get("result"));
             editor.putString("sToken", map.get("result"));
             editor.putString("idUser", map.get("id_user"));
-            editor.commit();
+            editor.putString("mUser", mUsername);
             send_token();
             return true;
         }
