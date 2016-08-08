@@ -38,7 +38,7 @@ public class NotificationActivity extends BaseActivity
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, mobileArray);
+        ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.activity_listview, mobileArray);
 
         ListView listView = (ListView) findViewById(R.id.mobile_list);
         listView.setAdapter(adapter);

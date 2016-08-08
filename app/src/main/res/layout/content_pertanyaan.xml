@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="1. Gangguan Apa yang Terjadi ?"
+        android:text="@string/gangguanApa"
         android:id="@+id/textView3"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
@@ -61,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="2. Berapa Lama Gangguan Selesai ?"
+        android:text="@string/berapaLama"
         android:id="@+id/textView4"
         android:layout_below="@+id/spinner3"
         android:layout_alignParentStart="true"
@@ -111,7 +111,7 @@
         android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:text="@string/submit"
         android:layout_marginTop="430dp"
         android:layout_centerHorizontal="true" />
 

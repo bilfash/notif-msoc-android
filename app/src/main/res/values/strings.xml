@@ -141,5 +141,12 @@
     <string name="title_activity_base">BaseActivity</string>
     <string name="logo_telkom">logo telkom</string>
     <string name="title_activity_history">HistoryActivity</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="profile">Profile</string>
+    <string name="history">History</string>
+    <string name="notification">Notification</string>
+    <string name="gangguanApa">1. Gangguan Apa yang Terjadi ?</string>
+    <string name="berapaLama">2. Berapa Lama Gangguan Selesai ?</string>
+    <string name="submit">Submit</string>
 
 </resources>

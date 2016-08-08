@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -32,11 +33,14 @@ import okhttp3.ResponseBody;
 public class HistoryActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private loadPage mPageTask = null;
+
     SharedPreferences pref;
     public static final String WIFI = "Wi-Fi";
     public static final String ANY = "Any";
 
-    private String URLhist;
+    private String URLhist = "http://notif-msoc.esy.es/api/v1/historyAPI";
+
     private String sToken;
     private String idUser;
 
@@ -73,8 +77,6 @@ public class HistoryActivity extends BaseActivity
          * Setting title
          */
         setTitle("History");
-
-        URLhist = "http://notif-msoc.esy.es/api/v1/historyAPI";
 
         sToken = pref.getString("sToken", null);
         idUser = pref.getString("idUser", null);
@@ -127,11 +129,87 @@ public class HistoryActivity extends BaseActivity
         // you don't want to refresh the display--this would force the display of
         // an error page instead of stackoverflow.com content.
         if (refreshDisplay) {
+
             try {
-                loadPage();
+                mPageTask = new loadPage();
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            mPageTask.execute((Void) null);
+        }
+    }
+
+    public class loadPage extends AsyncTask<Void, Void, Boolean> {
+        loadPage() {
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                loadload();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mPageTask = null;
+
+            if (!success) {
+                showErrorPage();
+            }
+        }
+
+        private void loadload() throws Exception {
+            RequestBody formBody = new FormBody.Builder()
+                    .add("token", sToken)
+                    .add("id_user", idUser)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(URLhist)
+                    .post(formBody)
+                    .build();
+
+            // Execute the request and retrieve the response.
+            // TODO: 8/1/2016 add conn error handler
+            Response response = client.newCall(request).execute();
+            ResponseBody body = response.body();
+            String json = body.string();
+
+            Log.d(TAG, "respon send " + String.valueOf(response));
+            Log.d(TAG, "isi send " + json);
+
+            if (!response.isSuccessful()) {
+                showErrorPage();
+            }
+            if (((sPref.equals(ANY)) && (wifiConnected || mobileConnected))
+                    || ((sPref.equals(WIFI)) && (wifiConnected))) {
+
+                WebView myWebView = (WebView) findViewById(R.id.webview);
+                // Force links and redirects to open in the WebView instead of in a browser
+                myWebView.setWebViewClient(new WebViewClient());
+                // Enable Javascript
+                WebSettings webSettings = myWebView.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+                webSettings.setAllowFileAccessFromFileURLs(true);
+                webSettings.setAllowUniversalAccessFromFileURLs(true);
+//            mWebView.loadUrl("http://www.notif-msoc.esy.es/picdashboard");
+                myWebView.loadData(json,
+                        "text/html", null);
+            } else {
+                showErrorPage();
+            }
+        }
+
+        // Displays an error if the app is unable to load content.
+        private void showErrorPage() {
+            // The specified network connection is not available. Displays error message.
+            WebView myWebView = (WebView) findViewById(R.id.webview);
+            myWebView.loadData(getResources().getString(R.string.connection_error),
+                    "text/html", null);
         }
     }
 
@@ -139,53 +217,6 @@ public class HistoryActivity extends BaseActivity
     // This avoids UI lock up. To prevent network operations from
     // causing a delay that results in a poor user experience, always perform
     // network operations on a separate thread from the UI.
-    private void loadPage() throws Exception {
-        RequestBody formBody = new FormBody.Builder()
-                .add("token", sToken)
-                .add("id_user", idUser)
-                .build();
-        Request request = new Request.Builder()
-                .url(URLhist)
-                .post(formBody)
-                .build();
-
-        // Execute the request and retrieve the response.
-        // TODO: 8/1/2016 add conn error handler
-        Response response = client.newCall(request).execute();
-        ResponseBody body = response.body();
-        String json = body.string();
-
-        Log.d(TAG, "respon send " + String.valueOf(response));
-        Log.d(TAG, "isi send " + json);
-
-        if (!response.isSuccessful()) {
-            showErrorPage();
-        }
-        if (((sPref.equals(ANY)) && (wifiConnected || mobileConnected))
-                || ((sPref.equals(WIFI)) && (wifiConnected))) {
-            mWebView = (WebView) findViewById(R.id.webview);
-            // Force links and redirects to open in the WebView instead of in a browser
-            mWebView.setWebViewClient(new WebViewClient());
-            // Enable Javascript
-            WebSettings webSettings = mWebView.getSettings();
-            webSettings.setJavaScriptEnabled(true);
-            webSettings.setAllowFileAccessFromFileURLs(true);
-            webSettings.setAllowUniversalAccessFromFileURLs(true);
-//            mWebView.loadUrl("http://www.notif-msoc.esy.es/picdashboard");
-            mWebView.loadData(json,
-                    "text/html", null);
-        } else {
-            showErrorPage();
-        }
-    }
-
-    // Displays an error if the app is unable to load content.
-    private void showErrorPage() {
-        // The specified network connection is not available. Displays error message.
-        WebView myWebView = (WebView) findViewById(R.id.webview);
-        myWebView.loadData(getResources().getString(R.string.connection_error),
-                "text/html", null);
-    }
 
     // Checks the network connection and sets the wifiConnected and mobileConnected
     // variables accordingly.
@@ -248,10 +279,11 @@ public class HistoryActivity extends BaseActivity
         }
         else if (id == R.id.refresh) {
             try {
-                loadPage();
+                mPageTask = new loadPage();
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            mPageTask.execute((Void) null);
             return true;
         }
 
