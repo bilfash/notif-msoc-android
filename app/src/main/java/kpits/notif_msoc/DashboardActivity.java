@@ -107,11 +107,11 @@ public class DashboardActivity extends BaseActivity
 
         sToken = pref.getString("sToken", null);
         idUser = pref.getString("idUser", null);
-        try {
-            loadPage();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            loadPage();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 //        mWebView = (WebView) findViewById(R.id.webview);
 //        // Force links and redirects to open in the WebView instead of in a browser

@@ -22,6 +22,13 @@ import android.widget.Toast;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+
 public class HistoryActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -29,7 +36,11 @@ public class HistoryActivity extends BaseActivity
     public static final String WIFI = "Wi-Fi";
     public static final String ANY = "Any";
 
-    String URLhist;
+    private String URLhist;
+    private String sToken;
+    private String idUser;
+
+    private final OkHttpClient client = new OkHttpClient();
 
     // Whether there is a Wi-Fi connection.
     private static boolean wifiConnected = false;
@@ -63,7 +74,10 @@ public class HistoryActivity extends BaseActivity
          */
         setTitle("History");
 
-        URLhist = "http://www.notif-msoc.esy.es/history_apps/" + pref.getString("idUser", null);
+        URLhist = "http://notif-msoc.esy.es/api/v1/historyAPI";
+
+        sToken = pref.getString("sToken", null);
+        idUser = pref.getString("idUser", null);
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -113,7 +127,11 @@ public class HistoryActivity extends BaseActivity
         // you don't want to refresh the display--this would force the display of
         // an error page instead of stackoverflow.com content.
         if (refreshDisplay) {
-            loadPage();
+            try {
+                loadPage();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -121,7 +139,28 @@ public class HistoryActivity extends BaseActivity
     // This avoids UI lock up. To prevent network operations from
     // causing a delay that results in a poor user experience, always perform
     // network operations on a separate thread from the UI.
-    private void loadPage() {
+    private void loadPage() throws Exception {
+        RequestBody formBody = new FormBody.Builder()
+                .add("token", sToken)
+                .add("id_user", idUser)
+                .build();
+        Request request = new Request.Builder()
+                .url(URLhist)
+                .post(formBody)
+                .build();
+
+        // Execute the request and retrieve the response.
+        // TODO: 8/1/2016 add conn error handler
+        Response response = client.newCall(request).execute();
+        ResponseBody body = response.body();
+        String json = body.string();
+
+        Log.d(TAG, "respon send " + String.valueOf(response));
+        Log.d(TAG, "isi send " + json);
+
+        if (!response.isSuccessful()) {
+            showErrorPage();
+        }
         if (((sPref.equals(ANY)) && (wifiConnected || mobileConnected))
                 || ((sPref.equals(WIFI)) && (wifiConnected))) {
             mWebView = (WebView) findViewById(R.id.webview);
@@ -130,8 +169,11 @@ public class HistoryActivity extends BaseActivity
             // Enable Javascript
             WebSettings webSettings = mWebView.getSettings();
             webSettings.setJavaScriptEnabled(true);
-            mWebView.loadUrl(URLhist);
-            Log.d(TAG, "urlhist: " + URLhist);
+            webSettings.setAllowFileAccessFromFileURLs(true);
+            webSettings.setAllowUniversalAccessFromFileURLs(true);
+//            mWebView.loadUrl("http://www.notif-msoc.esy.es/picdashboard");
+            mWebView.loadData(json,
+                    "text/html", null);
         } else {
             showErrorPage();
         }
@@ -205,7 +247,11 @@ public class HistoryActivity extends BaseActivity
             return true;
         }
         else if (id == R.id.refresh) {
-            loadPage();
+            try {
+                loadPage();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return true;
         }
 
