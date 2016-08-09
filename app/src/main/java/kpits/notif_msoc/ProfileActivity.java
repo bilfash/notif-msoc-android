@@ -1,12 +1,16 @@
 package kpits.notif_msoc;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 public class ProfileActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -19,12 +23,16 @@ public class ProfileActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_profile);
 
+        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         getLayoutInflater().inflate(R.layout.activity_profile, frameLayout);
 
         /**
          * Setting title
          */
         setTitle("Profile");
+
+        TextView textView = (TextView) findViewById(R.id.textView7);
+        textView.setText(pref.getString("mUser", null));
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
