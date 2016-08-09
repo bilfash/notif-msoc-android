@@ -19,20 +19,17 @@ import android.widget.TextView;
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    DrawerLayout drawer;
-    Toolbar toolbar;
-    FrameLayout frameLayout;
-    NavigationView navigationView;
-
-    SharedPreferences pref;
+    private DrawerLayout drawer;
+    protected FrameLayout frameLayout;
+    protected NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         setContentView(R.layout.activity_base);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         frameLayout = (FrameLayout) findViewById(R.id.content_frame);

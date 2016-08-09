@@ -7,14 +7,12 @@ import android.os.Handler;
 
 public class SplashScreen extends Activity {
 
-    // Splash screen timer
-    private static int SPLASH_TIME_OUT = 2000;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        int SPLASH_TIME_OUT = 2000;
         new Handler().postDelayed(new Runnable() {
 
             /*

@@ -3,6 +3,7 @@ package kpits.notif_msoc;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -32,11 +33,11 @@ import okhttp3.ResponseBody;
 public class PertanyaanActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    SharedPreferences pref;
+    private loadPage mPageTask = null;
 
     private final OkHttpClient client = new OkHttpClient();
     private String idAnswer;
-    private String URLdash = "http://notif-msoc.esy.es/api/v1/send_report";
+
     private String sToken = "";
     private String idUser = "";
     private String idResponse = "";
@@ -51,22 +52,14 @@ public class PertanyaanActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_pertanyaan);
 
         getLayoutInflater().inflate(R.layout.activity_pertanyaan, frameLayout);
-
-        pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-
-        /**
-         * Setting title
-         */
         setTitle("Pertanyaan");
+
+        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
         sToken = pref.getString("sToken", null);
         idUser = pref.getString("idUser", null);
-
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
 
         /*PopulatePerangkatJaringan();
         addItemsOnSpinner3();
@@ -74,24 +67,6 @@ public class PertanyaanActivity extends BaseActivity
         addItemsOnSpinner5();*/
         addListenerOnButton();
         addListenerOnSpinnerItemSelection();
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-//
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -163,85 +138,83 @@ public class PertanyaanActivity extends BaseActivity
 //    }
 
     private Spinner spinner1, spinner2, spinner3, spinner4, spinner5, spinner6, spinner7;
-    private Button btnSubmit;
-    private TextView textView5;
 
     // add items into spinner dynamically
-    public void PopulatePerangkatJaringan() {
+    private void PopulatePerangkatJaringan() {
         spinner2 = (Spinner) findViewById(R.id.spinner2);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("Router");
         list.add("Modem");
         list.add("Antena");
         list.add("Kabel");
         list.add("UPS");
         list.add("Lainnya");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner2.setAdapter(dataAdapter);
     }
 
-    public void PopulateLink() {
+    private void PopulateLink() {
         spinner2 = (Spinner) findViewById(R.id.spinner2);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("Transmission Backbone");
         list.add("FO Lastmile");
         list.add("HUB Vsat");
         list.add("Backhaul");
         list.add("Wareline");
         list.add("Lainnya");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner2.setAdapter(dataAdapter);
     }
 
-    public void PopulatePLN() {
+    private void PopulatePLN() {
         spinner2 = (Spinner) findViewById(R.id.spinner2);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("Listrik Padam");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner2.setAdapter(dataAdapter);
     }
 
-    public void PopulateSIAK() {
+    private void PopulateSIAK() {
         spinner2 = (Spinner) findViewById(R.id.spinner2);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("SIAK Konsolidasi");
         list.add("Aplikasi SIAK");
         list.add("Server SIAK");
         list.add("Lainnya");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner2.setAdapter(dataAdapter);
     }
 
-    public void PopulateKantor() {
+    private void PopulateKantor() {
         spinner2 = (Spinner) findViewById(R.id.spinner2);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("Listrik");
         list.add("Relokasi");
         list.add("Renovasi");
         list.add("Kerusakan Bangunan");
         list.add("Lainnya");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner2.setAdapter(dataAdapter);
     }
 
-    public void PopulatePerangkatEKTP() {
+    private void PopulatePerangkatEKTP() {
         spinner2 = (Spinner) findViewById(R.id.spinner2);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("Server");
         list.add("Switch");
         list.add("UPS E-KTP");
@@ -250,334 +223,334 @@ public class PertanyaanActivity extends BaseActivity
         list.add("Printer");
         list.add("Aplikasi");
         list.add("Lainnya");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner2.setAdapter(dataAdapter);
     }
 
-    public void PopulatePilih() {
+    private void PopulatePilih() {
         spinner2 = (Spinner) findViewById(R.id.spinner2);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner2.setVisibility(View.INVISIBLE);
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner2.setAdapter(dataAdapter);
     }
 
-    public void PopulateLainnya() {
+    private void PopulateLainnya() {
         spinner2 = (Spinner) findViewById(R.id.spinner2);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner2.setVisibility(View.INVISIBLE);
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner2.setAdapter(dataAdapter);
     }
 
-    public void PopulateLainnya2() {
+    private void PopulateLainnya2() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateRouter() {
+    private void PopulateRouter() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("Kabupaten");
         list.add("Non Kabupaten");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateModem() {
+    private void PopulateModem() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("Vsat");
         list.add("ADSL / IndiHome");
         list.add("L2S");
         list.add("G Phone");
         list.add("Lainnya");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateAntena() {
+    private void PopulateAntena() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("Vsat");
         list.add("Lainnya");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateKabel() {
+    private void PopulateKabel() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("UTP");
         list.add("FO");
         list.add("Lainnya");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateUPS() {
+    private void PopulateUPS() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateTransBackbone() {
+    private void PopulateTransBackbone() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateFOLastmile() {
+    private void PopulateFOLastmile() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateHUB() {
+    private void PopulateHUB() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateBackhaul() {
+    private void PopulateBackhaul() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateWareline() {
+    private void PopulateWareline() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateListrikPadam() {
+    private void PopulateListrikPadam() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateKonsolidasi() {
+    private void PopulateKonsolidasi() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateAplikasiSIAK() {
+    private void PopulateAplikasiSIAK() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateServerSIAK() {
+    private void PopulateServerSIAK() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateListrik() {
+    private void PopulateListrik() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateRelokasi() {
+    private void PopulateRelokasi() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateRenovasi() {
+    private void PopulateRenovasi() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateKerusakan() {
+    private void PopulateKerusakan() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateServer() {
+    private void PopulateServer() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateSwitch() {
+    private void PopulateSwitch() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateUPSKTP() {
+    private void PopulateUPSKTP() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateFingerPrint() {
+    private void PopulateFingerPrint() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateKamera() {
+    private void PopulateKamera() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulatePrinter() {
+    private void PopulatePrinter() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateAplikasi() {
+    private void PopulateAplikasi() {
         spinner3 = (Spinner) findViewById(R.id.spinner3);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         spinner3.setVisibility(View.INVISIBLE);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner3.setAdapter(dataAdapter);
     }
 
-    public void PopulateHari() {
+    private void PopulateHari() {
         spinner4 = (Spinner) findViewById(R.id.spinner4);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("Pilih Hari");
         list.add("-");
         list.add("1 Hari");
@@ -586,31 +559,31 @@ public class PertanyaanActivity extends BaseActivity
         list.add("4 Hari");
         list.add("5 Hari");
         list.add("6 Hari");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner4.setAdapter(dataAdapter);
     }
 
-    public void PopulateMinggu() {
+    private void PopulateMinggu() {
         spinner5 = (Spinner) findViewById(R.id.spinner5);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("Pilih Minggu");
         list.add("-");
         list.add("1 Minggu");
         list.add("2 Minggu");
         list.add("3 Minggu");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner5.setAdapter(dataAdapter);
     }
 
-    public void PopulateBulan() {
+    private void PopulateBulan() {
         spinner6 = (Spinner) findViewById(R.id.spinner6);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("Pilih Bulan");
         list.add("-");
         list.add("1 Bulan");
@@ -624,16 +597,16 @@ public class PertanyaanActivity extends BaseActivity
         list.add("9 Bulan");
         list.add("10 Bulan");
         list.add("11 Bulan");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
         spinner6.setAdapter(dataAdapter);
     }
 
-    public void PopulateTahun() {
+    private void PopulateTahun() {
         spinner7 = (Spinner) findViewById(R.id.spinner7);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("Pilih Tahun");
         list.add("-");
         list.add("1 Tahun");
@@ -641,7 +614,7 @@ public class PertanyaanActivity extends BaseActivity
         list.add("3 Tahun");
         list.add("4 Tahun");
         list.add("5 Tahun");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
@@ -659,7 +632,7 @@ public class PertanyaanActivity extends BaseActivity
 //        spinner5.setAdapter(dataAdapter);
 //    }
 
-    public void addListenerOnSpinnerItemSelection() {
+    private void addListenerOnSpinnerItemSelection() {
         spinner1 = (Spinner) findViewById(R.id.spinner1);
         spinner2 = (Spinner) findViewById(R.id.spinner2);
         spinner3 = (Spinner) findViewById(R.id.spinner3);
@@ -979,40 +952,72 @@ public class PertanyaanActivity extends BaseActivity
         });
     }
 
-    public void sendResponse() throws Exception {
-        printHours();
-        idResponse = String.valueOf(hour);
-        RequestBody formBody = new FormBody.Builder()
-                .add("token", sToken)
-                .add("id_user", idUser)
-                .add("id_answer", idAnswer)
-                .add("response", idResponse)
-                .add("detail", idDetail)
-                .build();
-        Request request = new Request.Builder()
-                .url(URLdash)
-                .post(formBody)
-                .build();
+    public class loadPage extends AsyncTask<Void, Void, Boolean> {
+        private final String URLdash = "http://notif-msoc.esy.es/api/v1/send_report";
 
-        // Execute the request and retrieve the response.
-        // TODO: 8/1/2016 add conn error handler
-        Response response = client.newCall(request).execute();
-        ResponseBody body = response.body();
-        String json = body.string();
+        loadPage() {
+            printHours();
+            idResponse = String.valueOf(hour);
+        }
 
-        Toast.makeText(PertanyaanActivity.this, json, Toast.LENGTH_SHORT).show();
-        Toast.makeText(PertanyaanActivity.this, idDetail, Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
-    }
+        public void printHours(){
+            TextView textView5 = (TextView) findViewById(R.id.textView5);
+            idDetail = textView5.getText().toString();
+            hour = day + week + month + year;
+        }
 
-    public void printHours(){
-        textView5 = (TextView) findViewById(R.id.textView5);
-        idDetail = textView5.getText().toString();
-        hour = day + week + month + year;
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                loadload();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mPageTask = null;
+
+            if (!success) {
+                showErrorPage();
+            }
+        }
+
+        private void loadload() throws Exception {
+            RequestBody formBody = new FormBody.Builder()
+                    .add("token", sToken)
+                    .add("id_user", idUser)
+                    .add("id_answer", idAnswer)
+                    .add("response", idResponse)
+                    .add("detail", idDetail)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(URLdash)
+                    .post(formBody)
+                    .build();
+
+            // Execute the request and retrieve the response.
+            // TODO: 8/1/2016 add conn error handler
+            Response response = client.newCall(request).execute();
+            ResponseBody body = response.body();
+            String json = body.string();
+
+            Toast.makeText(PertanyaanActivity.this, json, Toast.LENGTH_SHORT).show();
+            Toast.makeText(PertanyaanActivity.this, idDetail, Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
+        }
+
+        // Displays an error if the app is unable to load content.
+        private void showErrorPage() {
+            Toast.makeText(PertanyaanActivity.this, "Maaf, mohon coba lagi.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // get the selected dropdown list value
-    public void addListenerOnButton() {
+    private void addListenerOnButton() {
 
 //        spinner1 = (Spinner) findViewById(R.id.spinner1);
 //        spinner2 = (Spinner) findViewById(R.id.spinner2);
@@ -1021,17 +1026,18 @@ public class PertanyaanActivity extends BaseActivity
 //        spinner5 = (Spinner) findViewById(R.id.spinner5);
 //        spinner6 = (Spinner) findViewById(R.id.spinner6);
 //        spinner7 = (Spinner) findViewById(R.id.spinner7);
-        btnSubmit = (Button) findViewById(R.id.btnSubmit);
+        Button btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
         btnSubmit.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 try {
-                    sendResponse();
+                    mPageTask = new loadPage();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                mPageTask.execute((Void) null);
 
                 Toast.makeText(PertanyaanActivity.this,
                         "OnClickListener : " +

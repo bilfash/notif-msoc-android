@@ -35,11 +35,8 @@ public class HistoryActivity extends BaseActivity
 
     private loadPage mPageTask = null;
 
-    SharedPreferences pref;
-    public static final String WIFI = "Wi-Fi";
-    public static final String ANY = "Any";
-
-    private String URLhist = "http://notif-msoc.esy.es/api/v1/historyAPI";
+    private static final String WIFI = "Wi-Fi";
+    private static final String ANY = "Any";
 
     private String sToken;
     private String idUser;
@@ -51,56 +48,35 @@ public class HistoryActivity extends BaseActivity
     // Whether there is a mobile connection.
     private static boolean mobileConnected = false;
     // Whether the display should be refreshed.
-    public static boolean refreshDisplay = true;
+    private static boolean refreshDisplay = true;
 
     // The user's current network preference setting.
-    public static String sPref = null;
+    private static String sPref = null;
 
     // The BroadcastReceiver that tracks network connectivity changes.
     private NetworkReceiver receiver = new NetworkReceiver();
 
-    private static final String TAG = "MainActivity";
-
-    private WebView mWebView;
+    private static final String TAG = "HistoryActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-
-//        setContentView(R.layout.activity_history);
-
         getLayoutInflater().inflate(R.layout.activity_history, frameLayout);
-
-        /**
-         * Setting title
-         */
         setTitle("History");
 
+        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         sToken = pref.getString("sToken", null);
         idUser = pref.getString("idUser", null);
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-//
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
+        WebView myWebView = (WebView) findViewById(R.id.webview);
+        // Force links and redirects to open in the WebView instead of in a browser
+        myWebView.setWebViewClient(new WebViewClient());
+        // Enable Javascript
+        WebSettings webSettings = myWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setAllowFileAccessFromFileURLs(true);
+        webSettings.setAllowUniversalAccessFromFileURLs(true);
     }
 
     @Override
@@ -142,6 +118,8 @@ public class HistoryActivity extends BaseActivity
     public class loadPage extends AsyncTask<Void, Void, Boolean> {
         loadPage() {
         }
+
+        private final String URLhist = "http://notif-msoc.esy.es/api/v1/historyAPI";
 
         @Override
         protected Boolean doInBackground(Void... voids) {
@@ -189,14 +167,6 @@ public class HistoryActivity extends BaseActivity
                     || ((sPref.equals(WIFI)) && (wifiConnected))) {
 
                 WebView myWebView = (WebView) findViewById(R.id.webview);
-                // Force links and redirects to open in the WebView instead of in a browser
-                myWebView.setWebViewClient(new WebViewClient());
-                // Enable Javascript
-                WebSettings webSettings = myWebView.getSettings();
-                webSettings.setJavaScriptEnabled(true);
-                webSettings.setAllowFileAccessFromFileURLs(true);
-                webSettings.setAllowUniversalAccessFromFileURLs(true);
-//            mWebView.loadUrl("http://www.notif-msoc.esy.es/picdashboard");
                 myWebView.loadData(json,
                         "text/html", null);
             } else {
@@ -289,31 +259,6 @@ public class HistoryActivity extends BaseActivity
 
         return super.onOptionsItemSelected(item);
     }
-
-//    @SuppressWarnings("StatementWithEmptyBody")
-//    @Override
-//    public boolean onNavigationItemSelected(MenuItem item) {
-//        // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-//        return true;
-//    }
 
     /**
      *

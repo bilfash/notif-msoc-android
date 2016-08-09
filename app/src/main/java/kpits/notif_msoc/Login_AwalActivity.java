@@ -41,22 +41,10 @@ import okhttp3.ResponseBody;
  */
 public class Login_AwalActivity extends AppCompatActivity {
 
-    SharedPreferences pref;
+    private SharedPreferences pref;
     private static final String LOGIN_URL = "http://notif-msoc.esy.es/api/v1/login";
     private static final String SEND_TOKEN_URL = "http://notif-msoc.esy.es/api/v1/send_token";
 
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-/*    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world", "test:test"
-    };*/
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -224,7 +212,7 @@ public class Login_AwalActivity extends AppCompatActivity {
         private final String mPassword;
         private final OkHttpClient client = new OkHttpClient();
 
-        public boolean send_token() throws Exception {
+        public void send_token() throws Exception {
             String fToken = FirebaseInstanceId.getInstance().getToken();
             Log.d(TAG, "InstanceID token: " + fToken);
             if (pref.contains("sToken")) {
@@ -254,11 +242,8 @@ public class Login_AwalActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("fToken", fToken);
                     editor.apply();
-                    return true;
                 }
-                return false;
             }
-            return false;
         }
 
         public boolean login() throws Exception {
@@ -282,7 +267,7 @@ public class Login_AwalActivity extends AppCompatActivity {
 
             if (!response.isSuccessful()) return false;
 
-            HashMap<String, String> map = new HashMap<String, String>();
+            HashMap<String, String> map = new HashMap<>();
             JSONObject jObject = new JSONObject(json);
             Iterator<?> keys = jObject.keys();
 
@@ -295,7 +280,7 @@ public class Login_AwalActivity extends AppCompatActivity {
             }
             catch (JSONException e)
             {
-
+                e.printStackTrace();
             }
 
             if(map.get("result") == null) {
@@ -307,7 +292,7 @@ public class Login_AwalActivity extends AppCompatActivity {
             editor.putString("sToken", map.get("result"));
             editor.putString("idUser", map.get("id_user"));
             editor.putString("mUser", mUsername);
-            editor.commit();
+            editor.apply();
             send_token();
             return true;
         }

@@ -17,15 +17,11 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-/**
- * Created by Danang on 8/2/2016.
- */
 public class RegistrationIntentService extends IntentService {
 
     // abbreviated tag name
     private static final String TAG = "RegIntentService";
-    public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
-    public static final String FCM_TOKEN = "FCMToken";
+    private static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
     private final OkHttpClient client = new OkHttpClient();
     private static final String SEND_TOKEN_URL = "http://notif-msoc.esy.es/api/v1/send_token";
 
@@ -37,7 +33,7 @@ public class RegistrationIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         // Make a call to Instance API
         FirebaseInstanceId instanceID = FirebaseInstanceId.getInstance();
-        String senderId = getResources().getString(R.string.gcm_defaultSenderId);
+//        String senderId = getResources().getString(R.string.gcm_defaultSenderId);
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 

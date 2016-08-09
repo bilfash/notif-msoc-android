@@ -36,32 +36,30 @@ import okhttp3.ResponseBody;
 public class DashboardActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    SharedPreferences pref;
-    public static final String WIFI = "Wi-Fi";
-    public static final String ANY = "Any";
+    private loadPage mPageTask = null;
+
+    private static final String WIFI = "Wi-Fi";
+    private static final String ANY = "Any";
+
+    private String sToken;
+    private String idUser;
+
+    private final OkHttpClient client = new OkHttpClient();
 
     // Whether there is a Wi-Fi connection.
     private static boolean wifiConnected = false;
     // Whether there is a mobile connection.
     private static boolean mobileConnected = false;
     // Whether the display should be refreshed.
-    public static boolean refreshDisplay = true;
+    private static boolean refreshDisplay = true;
 
     // The user's current network preference setting.
-    public static String sPref = null;
-
-    private final OkHttpClient client = new OkHttpClient();
+    private static String sPref = null;
 
     // The BroadcastReceiver that tracks network connectivity changes.
     private NetworkReceiver receiver = new NetworkReceiver();
 
-    private static final String TAG = "MainActivity";
-
-    private String URLdash = "http://notif-msoc.esy.es/api/v1/dashboardAPI";
-    private String sToken;
-    private String idUser;
-
-    private loadPage mPageTask = null;
+    private static final String TAG = "DashboardActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +68,7 @@ public class DashboardActivity extends BaseActivity
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
         if (pref.contains("sToken")) {
             Toast t1 = Toast.makeText(getApplicationContext(), pref.getString("sToken", null), Toast.LENGTH_SHORT);
@@ -81,6 +79,9 @@ public class DashboardActivity extends BaseActivity
             Toast t1 = Toast.makeText(getApplicationContext(), pref.getString("idUser", null), Toast.LENGTH_SHORT);
             t1.show();
         }
+
+        sToken = pref.getString("sToken", null);
+        idUser = pref.getString("idUser", null);
 
         if (getIntent().getExtras() != null) {
             for (String key : getIntent().getExtras().keySet()) {
@@ -97,51 +98,17 @@ public class DashboardActivity extends BaseActivity
         Intent intent = new Intent(this, RegistrationIntentService.class);
         startService(intent);
 
-//        setContentView(R.layout.activity_dashboard);
-
         getLayoutInflater().inflate(R.layout.activity_dashboard, frameLayout);
-
-        /**
-         * Setting title
-         */
         setTitle("Dashboard");
 
-        sToken = pref.getString("sToken", null);
-        idUser = pref.getString("idUser", null);
-//        try {
-//            loadPage();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-//        mWebView = (WebView) findViewById(R.id.webview);
-//        // Force links and redirects to open in the WebView instead of in a browser
-//        mWebView.setWebViewClient(new WebViewClient());
-//        // Enable Javascript
-//        WebSettings webSettings = mWebView.getSettings();
-//        webSettings.setJavaScriptEnabled(true);
-//        mWebView.loadUrl("http://www.notif-msoc.esy.es/picdashboard");
-
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-//
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
+        WebView myWebView = (WebView) findViewById(R.id.webview);
+        // Force links and redirects to open in the WebView instead of in a browser
+        myWebView.setWebViewClient(new WebViewClient());
+        // Enable Javascript
+        WebSettings webSettings = myWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setAllowFileAccessFromFileURLs(true);
+        webSettings.setAllowUniversalAccessFromFileURLs(true);
     }
 
     @Override
@@ -182,6 +149,8 @@ public class DashboardActivity extends BaseActivity
     public class loadPage extends AsyncTask<Void, Void, Boolean> {
         loadPage() {
         }
+
+        private final String URLdash = "http://notif-msoc.esy.es/api/v1/dashboardAPI";
 
         @Override
         protected Boolean doInBackground(Void... voids) {
@@ -229,14 +198,6 @@ public class DashboardActivity extends BaseActivity
             if (((sPref.equals(ANY)) && (wifiConnected || mobileConnected))
                     || ((sPref.equals(WIFI)) && (wifiConnected))) {
                 WebView myWebView = (WebView) findViewById(R.id.webview);
-                // Force links and redirects to open in the WebView instead of in a browser
-                myWebView.setWebViewClient(new WebViewClient());
-                // Enable Javascript
-                WebSettings webSettings = myWebView.getSettings();
-                webSettings.setJavaScriptEnabled(true);
-                webSettings.setAllowFileAccessFromFileURLs(true);
-                webSettings.setAllowUniversalAccessFromFileURLs(true);
-//            mWebView.loadUrl("http://www.notif-msoc.esy.es/picdashboard");
                 myWebView.loadData(json,
                         "text/html", null);
             } else {
@@ -335,36 +296,6 @@ public class DashboardActivity extends BaseActivity
 
         return super.onOptionsItemSelected(item);
     }
-
-//    @SuppressWarnings("StatementWithEmptyBody")
-//    @Override
-//    public boolean onNavigationItemSelected(MenuItem item) {
-//        // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//
-//        if (id == R.id.nav_dashboard) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_profile) {
-//
-//        } else if (id == R.id.nav_notification) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-//        return true;
-//    }
-
-//    public void goToPertanyaan(View view) {
-//        Intent intent = new Intent(this, PertanyaanActivity.class);
-//        startActivity(intent);
-//    }
 
     /**
      *

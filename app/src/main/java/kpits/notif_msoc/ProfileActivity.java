@@ -1,25 +1,18 @@
 package kpits.notif_msoc;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 public class ProfileActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private final int SELECT_PHOTO = 1;
-    private ImageView imageView;
+//    private final int SELECT_PHOTO = 1;
+//    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,24 +61,24 @@ public class ProfileActivity extends BaseActivity
         navigationView.getMenu().getItem(1).setChecked(true);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
-        switch(requestCode) {
-            case SELECT_PHOTO:
-                if(resultCode == RESULT_OK){
-                    try {
-                        final Uri imageUri = imageReturnedIntent.getData();
-                        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                        imageView.setImageBitmap(selectedImage);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+//        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+//
+//        switch(requestCode) {
+//            case SELECT_PHOTO:
+//                if(resultCode == RESULT_OK){
+//                    try {
+//                        final Uri imageUri = imageReturnedIntent.getData();
+//                        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+//                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+//                        imageView.setImageBitmap(selectedImage);
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//        }
+//    }
 
     @Override
     public void onBackPressed() {
@@ -122,29 +115,4 @@ public class ProfileActivity extends BaseActivity
 
         return super.onOptionsItemSelected(item);
     }
-
-//    @SuppressWarnings("StatementWithEmptyBody")
-//    @Override
-//    public boolean onNavigationItemSelected(MenuItem item) {
-//        // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//
-//        if (id == R.id.nav_dashboard) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_profile) {
-//
-//        } else if (id == R.id.nav_notification) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-//        return true;
-//    }
 }
