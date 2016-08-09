@@ -147,6 +147,7 @@ public class DashboardActivity extends BaseActivity
     }
 
     public class loadPage extends AsyncTask<Void, Void, Boolean> {
+        private String json;
         loadPage() {
         }
 
@@ -170,6 +171,8 @@ public class DashboardActivity extends BaseActivity
             if (!success) {
                 showErrorPage();
             }
+            else
+                loadDash();
         }
 
         private void loadload() throws Exception {
@@ -187,7 +190,7 @@ public class DashboardActivity extends BaseActivity
             // TODO: 8/1/2016 add conn error handler
             Response response = client.newCall(request).execute();
             ResponseBody body = response.body();
-            String json = body.string();
+            json = body.string();
 
             Log.d(TAG, "respon send " + String.valueOf(response));
             Log.d(TAG, "isi send " + json);
@@ -197,9 +200,7 @@ public class DashboardActivity extends BaseActivity
             }
             if (((sPref.equals(ANY)) && (wifiConnected || mobileConnected))
                     || ((sPref.equals(WIFI)) && (wifiConnected))) {
-                WebView myWebView = (WebView) findViewById(R.id.webview);
-                myWebView.loadData(json,
-                        "text/html", null);
+
             } else {
                 showErrorPage();
             }
@@ -210,6 +211,12 @@ public class DashboardActivity extends BaseActivity
             // The specified network connection is not available. Displays error message.
             WebView myWebView = (WebView) findViewById(R.id.webview);
             myWebView.loadData(getResources().getString(R.string.connection_error),
+                    "text/html", null);
+        }
+
+        private void loadDash() {
+            WebView myWebView = (WebView) findViewById(R.id.webview);
+            myWebView.loadData(json,
                     "text/html", null);
         }
     }
