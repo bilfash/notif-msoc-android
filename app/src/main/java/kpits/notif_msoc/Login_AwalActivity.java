@@ -198,10 +198,6 @@ public class Login_AwalActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.

@@ -24,11 +24,6 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
-//    SharedPreferences pref;
-//    private static final String TAG = "MyFirebaseIIDService";
-//    private final OkHttpClient client = new OkHttpClient();
-//    private static final String SEND_TOKEN_URL = "http://notif-msoc.esy.es/api/v1/send_token";
-
     /**
      * Called if InstanceID token is updated. This may occur if the security of
      * the previous token had been compromised. Note that this is called when the InstanceID token
@@ -42,63 +37,6 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         // Fetch updated Instance ID token and notify of changes
         Intent intent = new Intent(this, RegistrationIntentService.class);
         startService(intent);
-
-        /*pref = PreferenceManager.getDefaultSharedPreferences(this);
-        // Get updated InstanceID token.
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        Log.d(TAG, "Refreshed token: " + refreshedToken);
-
-        // If you want to send messages to this application instance or
-        // manage this apps subscriptions on the server side, send the
-        // Instance ID token to your app server.
-        try {
-            sendRegistrationToServer(refreshedToken);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return;*/
     }
     // [END refresh_token]
-
-    /**
-     * Persist token to third-party servers.
-     *
-     * Modify this method to associate the user's FCM InstanceID token with any server-side account
-     * maintained by your application.
-     *
-     * @param fToken The new token.
-     */
-    /*private void sendRegistrationToServer(String fToken) throws IOException {
-        // TODO: Implement this method to send token to your app server.
-        pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        if (pref.contains("sToken")) {
-            String sToken = pref.getString("sToken", null);
-            String idUser = pref.getString("idUser", null);
-
-            RequestBody formBody = new FormBody.Builder()
-                    .add("token", sToken)
-                    .add("token_device", fToken)
-                    .add("id_user", idUser)
-                    .build();
-            Request request = new Request.Builder()
-                    .url(SEND_TOKEN_URL)
-                    .post(formBody)
-                    .build();
-
-            // Execute the request and retrieve the response.
-            // TODO: 8/1/2016 add conn error handler
-            Response response = client.newCall(request).execute();
-            ResponseBody body = response.body();
-            String json = body.string();
-
-            Log.d(TAG, "lihat sini" + String.valueOf(response));
-            Log.d(TAG, json);
-
-            if (response.isSuccessful()) {
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString("fToken", fToken);
-                editor.commit();
-            }
-        }
-    }*/
 }

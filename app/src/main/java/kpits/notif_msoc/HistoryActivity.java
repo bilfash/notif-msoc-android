@@ -141,6 +141,8 @@ public class HistoryActivity extends BaseActivity
             if (!success) {
                 showErrorPage();
             }
+            else
+                loadHist();
         }
 
         private void loadload() throws Exception {
