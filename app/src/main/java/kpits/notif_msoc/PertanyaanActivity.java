@@ -955,6 +955,7 @@ public class PertanyaanActivity extends BaseActivity
     public class loadPage extends AsyncTask<Void, Void, Boolean> {
         private final String URLdash = "http://notif-msoc.esy.es/api/v1/send_report";
 
+        String json;
         loadPage() {
             printHours();
             idResponse = String.valueOf(hour);
@@ -981,8 +982,11 @@ public class PertanyaanActivity extends BaseActivity
         protected void onPostExecute(final Boolean success) {
             mPageTask = null;
 
-            if (!success) {
-                showErrorPage();
+            if (success) {
+                report_sent();
+            }
+            else {
+                showError();
             }
         }
 
@@ -1003,16 +1007,18 @@ public class PertanyaanActivity extends BaseActivity
             // TODO: 8/1/2016 add conn error handler
             Response response = client.newCall(request).execute();
             ResponseBody body = response.body();
-            String json = body.string();
-
-            Toast.makeText(PertanyaanActivity.this, json, Toast.LENGTH_SHORT).show();
-            Toast.makeText(PertanyaanActivity.this, idDetail, Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
+            json = body.string();
         }
 
         // Displays an error if the app is unable to load content.
-        private void showErrorPage() {
+        private void showError() {
             Toast.makeText(PertanyaanActivity.this, "Maaf, mohon coba lagi.", Toast.LENGTH_SHORT).show();
+        }
+
+        private void report_sent() {
+            Toast.makeText(PertanyaanActivity.this, json, Toast.LENGTH_SHORT).show();
+            Toast.makeText(PertanyaanActivity.this, idDetail, Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
         }
     }
 
