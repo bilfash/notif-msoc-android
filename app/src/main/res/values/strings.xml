@@ -127,7 +127,8 @@
     <string name="prompt_user">Username</string>
     <string name="prompt_pass">Password</string>
     <string name="prompt_name">Nama</string>
-    <string name="prompt_kabupaten">Provinsi/Kabupaten</string>
+    <string name="prompt_tingkat">Tingkat</string>
+    <string name="prompt_region">Region</string>
     <string name="prompt_phone">Nomor Telepon</string>
     <string name="prompt_mail">E-Mail</string>
 
@@ -145,5 +146,9 @@
     <string name="gangguanApa">1. Gangguan Apa yang Terjadi ?</string>
     <string name="berapaLama">2. Berapa Lama Gangguan Selesai ?</string>
     <string name="submit">Submit</string>
+    <string name="changePass">Change Password</string>
+    <string name="editProfile">Edit Profile</string>
+    <string name="retype">Retype Password</string>
+    <string name="title_activity_change_password">ChangePassword</string>
 
 </resources>
