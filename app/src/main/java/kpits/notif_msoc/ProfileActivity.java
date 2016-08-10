@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,11 +32,18 @@ import okhttp3.ResponseBody;
 public class ProfileActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private loadPage mPageTask = null;
+    private getUser mPageTask = null;
+    private updateUser mUptTask = null;
     private final OkHttpClient client = new OkHttpClient();
 
     private String sToken = "";
     private String idUser = "";
+
+    private String fullname;
+    private String previledge;
+    private String number;
+    private String email;
+    private String region;
 
     private static final String TAG = "ProfileActivity";
 //    private final int SELECT_PHOTO = 1;
@@ -60,38 +68,32 @@ public class ProfileActivity extends BaseActivity
         TextView textView = (TextView) findViewById(R.id.textView1);
         textView.setText(pref.getString("mUser", null));
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
 //        imageView = (ImageView)findViewById(R.id.imageView2);
 //        Button pickImage = (Button) findViewById(R.id.btn_pick);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        pickImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-////                        .setAction("Action", null).show();
-//                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-//                photoPickerIntent.setType("image/*");
-//                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-//            }
-//        });
-
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-//
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
         try {
-            mPageTask = new loadPage();
+            mPageTask = new getUser();
         } catch (Exception e) {
             e.printStackTrace();
         }
         mPageTask.execute((Void) null);
+
+
+
+        Button btnSubmit = (Button) findViewById(R.id.btnEditProfile);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                try {
+                    mUptTask = new updateUser();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                mUptTask.execute((Void) null);
+            }
+
+        });
     }
 
     @Override
@@ -156,13 +158,15 @@ public class ProfileActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public class loadPage extends AsyncTask<Void, Void, Boolean> {
-        private final String URLdash = "http://notif-msoc.esy.es/api/v1/get_user";
+    public class getUser extends AsyncTask<Void, Void, Boolean> {
+        private final String URLgetus = "http://notif-msoc.esy.es/api/v1/get_user";
 
         @Override
         protected Boolean doInBackground(Void... voids) {
             try {
-                loadload();
+                if(loadload()){
+                    return true;
+                }
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -177,15 +181,18 @@ public class ProfileActivity extends BaseActivity
             if (!success) {
                 showErrorPage();
             }
+            else {
+                isiProfil();
+            }
         }
 
-        private void loadload() throws Exception {
+        private boolean loadload() throws Exception {
             RequestBody formBody = new FormBody.Builder()
                     .add("token", sToken)
                     .add("id_user", idUser)
                     .build();
             Request request = new Request.Builder()
-                    .url(URLdash)
+                    .url(URLgetus)
                     .post(formBody)
                     .build();
 
@@ -198,6 +205,10 @@ public class ProfileActivity extends BaseActivity
             Log.d(TAG, "respon send " + String.valueOf(response));
             Log.d(TAG, "isi send " + json);
 
+            if (!response.isSuccessful()) {
+                return false;
+            }
+
             HashMap<String, String> map = new HashMap<>();
             JSONObject jObject = new JSONObject(json);
             Iterator<?> keys = jObject.keys();
@@ -209,18 +220,149 @@ public class ProfileActivity extends BaseActivity
                     map.put(key, value);
                 }
             }
+
             catch (JSONException e)
             {
                 e.printStackTrace();
             }
 
-            Toast.makeText(ProfileActivity.this, json, Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
+            fullname = map.get("fullname");
+            previledge = map.get("previledge");
+            number = map.get("number");
+            email = map.get("email");
+            region = map.get("name");
+
+            return true;
         }
 
         // Displays an error if the app is unable to load content.
         private void showErrorPage() {
-            Toast.makeText(ProfileActivity.this, "Maaf, mohon coba lagi.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProfileActivity.this, "Maaf, jaringan anda bermasalah.", Toast.LENGTH_SHORT).show();
+        }
+
+        private void isiProfil() {
+            TextView tv2 = (TextView) findViewById(R.id.textView2);
+            TextView tv3 = (TextView) findViewById(R.id.textView3);
+            TextView tv4 = (TextView) findViewById(R.id.textView4);
+            TextView tv5 = (TextView) findViewById(R.id.textView5);
+            TextView tv6 = (TextView) findViewById(R.id.textView6);
+
+            tv2.setText(fullname);
+            if (previledge.contentEquals("0")) {
+                tv3.setText("Pusat");
+            } else if (previledge.contentEquals("1")) {
+                tv3.setText("Provinsi");
+            } else if (previledge.contentEquals("2")) {
+                tv3.setText("Kabupaten / Kota");
+            }
+            tv4.setText(region);
+            tv5.setText(number);
+            tv6.setText(email);
+        }
+    }
+
+    public class updateUser extends AsyncTask<Void, Void, Boolean> {
+        private final String URLupus = "http://notif-msoc.esy.es/api/v1/update_user";
+        TextView tv2 = (TextView) findViewById(R.id.textView2);
+        TextView tv4 = (TextView) findViewById(R.id.textView4);
+        TextView tv5 = (TextView) findViewById(R.id.textView5);
+        TextView tv6 = (TextView) findViewById(R.id.textView6);
+        boolean sama = false;
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                if(!cekSamakah()) {
+                    if(loadload()){
+                        return true;
+                    }
+                } else {
+                    infoSama();
+                    sama = true;
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mPageTask = null;
+
+            if (!success) {
+                showErrorPage();
+            }
+            else {
+                isiProfil();
+            }
+        }
+
+        private boolean loadload() throws Exception {
+            RequestBody formBody = new FormBody.Builder()
+                    .add("token", sToken)
+                    .add("id_user", idUser)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(URLupus)
+                    .post(formBody)
+                    .build();
+
+            // Execute the request and retrieve the response.
+            // TODO: 8/1/2016 add conn error handler
+            Response response = client.newCall(request).execute();
+            ResponseBody body = response.body();
+            String json = body.string();
+
+            Log.d(TAG, "respon send " + String.valueOf(response));
+            Log.d(TAG, "isi send " + json);
+            if (!response.isSuccessful()) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        // Displays an error if the app is unable to load content.
+        private void showErrorPage() {
+            Toast.makeText(ProfileActivity.this, "Maaf, jaringan anda bermasalah.", Toast.LENGTH_SHORT).show();
+        }
+
+        private void infoSama() {
+            Toast.makeText(ProfileActivity.this, "Maaf, data yang anda masukkan sama.", Toast.LENGTH_SHORT).show();
+        }
+
+        private void isiProfil() {
+            if(!sama) {
+                fullname = tv2.getText().toString();
+                number = tv4.getText().toString();
+                email = tv5.getText().toString();
+                region = tv6.getText().toString();
+            }
+        }
+
+        private boolean cekSamakah() {
+            int sama = 0;
+
+            if(fullname.contentEquals(tv2.getText())) {
+                sama++;
+            }
+            if(region.contentEquals(tv4.getText())) {
+                sama++;
+            }
+            if(number.contentEquals(tv5.getText())) {
+                sama++;
+            }
+            if(email.contentEquals(tv6.getText())) {
+                sama++;
+            }
+
+            if(sama == 4) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }
