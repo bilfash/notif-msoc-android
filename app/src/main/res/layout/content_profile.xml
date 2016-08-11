@@ -150,7 +150,8 @@
         android:layout_height="wrap_content"
         android:text="@string/changePass"
         android:layout_marginTop="430dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="goToChangePass()" />
 
 
     <!--android:onClick="setProfilePhoto"-->

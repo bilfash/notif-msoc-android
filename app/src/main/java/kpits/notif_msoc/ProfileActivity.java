@@ -96,6 +96,11 @@ public class ProfileActivity extends BaseActivity
         });
     }
 
+    public void goToChangePass() {
+        Intent intent = new Intent(this, ChangePasswordActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();

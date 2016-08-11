@@ -95,6 +95,7 @@ public class BaseActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
         //to prevent current item select over and over
         if (item.isChecked()){
@@ -111,7 +112,7 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_history) {
             startActivity(new Intent(getApplicationContext(), HistoryActivity.class));
 
-        } else if (id == R.id.nav_notification) {
+        } else if (id == R.id.nav_notification && !pref.getString("sToken", null).equals("0")) {
             startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
 
         }

@@ -287,6 +287,7 @@ public class Login_AwalActivity extends AppCompatActivity {
             Log.d(TAG, "login token: " + map.get("result") + map.get("id_user"));
             editor.putString("sToken", map.get("result"));
             editor.putString("idUser", map.get("id_user"));
+            editor.putString("sPrev", map.get("previledge"));
             editor.putString("mUser", mUsername);
             editor.apply();
             send_token();

@@ -108,7 +108,7 @@
                 android:value="kpits.notif_msoc.DashboardActivity" />
         </activity>
         <activity
-            android:name=".ChangePassword"
+            android:name=".ChangePasswordActivity"
             android:label="@string/title_activity_change_password"
             android:parentActivityName=".ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar">
