@@ -308,6 +308,9 @@ public class ProfileActivity extends BaseActivity
             RequestBody formBody = new FormBody.Builder()
                     .add("token", sToken)
                     .add("id_user", idUser)
+                    .add("id_user", fullname)
+                    .add("id_user", email)
+                    .add("id_user", number)
                     .build();
             Request request = new Request.Builder()
                     .url(URLupus)
