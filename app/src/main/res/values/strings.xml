@@ -126,6 +126,7 @@
 
     <string name="prompt_user">Username</string>
     <string name="prompt_pass">Password</string>
+    <string name="prompt_oldpassword">Old Password</string>
     <string name="prompt_name">Nama</string>
     <string name="prompt_tingkat">Tingkat</string>
     <string name="prompt_region">Region</string>
