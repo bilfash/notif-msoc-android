@@ -96,7 +96,7 @@ public class ProfileActivity extends BaseActivity
         });
     }
 
-    public void goToChangePass() {
+    public void goToChangePass(View view) {
         Intent intent = new Intent(this, ChangePasswordActivity.class);
         startActivity(intent);
     }
