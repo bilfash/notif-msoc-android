@@ -24,9 +24,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Username\t\t\t\t:"
+        android:text="Username"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="110dp"
         android:layout_marginLeft="3dp" />
 
     <TextView
@@ -36,14 +36,14 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Username"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="110dp"
         android:layout_marginLeft="133dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Nama\t\t\t\t\t\t\t\t:"
+        android:text="Nama"
         android:layout_alignParentStart="true"
         android:layout_marginTop="150dp"
         android:layout_marginLeft="3dp" />
@@ -62,9 +62,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Tingkat\t\t\t\t\t\t\t:"
+        android:text="Tingkat"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="190dp"
         android:layout_marginLeft="3dp" />
 
     <TextView
@@ -74,35 +74,35 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Tingkat"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="190dp"
         android:layout_marginLeft="133dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Region\t\t\t\t\t\t\t:"
+        android:text="Region"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="210dp"
+        android:layout_marginTop="230dp"
         android:layout_marginLeft="3dp" />
 
-    <AutoCompleteTextView
+    <TextView
         android:id="@+id/textView4"
-        android:layout_width="220dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/prompt_region"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:layout_marginTop="200dp"
-        android:layout_marginLeft="130dp" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Region"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="230dp"
+        android:layout_marginLeft="133dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="No. Telepon\t\t:"
+        android:text="No. Telepon"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="270dp"
         android:layout_marginLeft="3dp" />
 
     <AutoCompleteTextView
@@ -112,7 +112,7 @@
         android:hint="@string/prompt_phone"
         android:maxLines="1"
         android:singleLine="true"
-        android:layout_marginTop="230dp"
+        android:layout_marginTop="260dp"
         android:layout_marginLeft="130dp"
         android:layout_alignParentEnd="false" />
 
@@ -120,9 +120,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="E-Mail\t\t\t\t\t\t\t\t:"
+        android:text="E-Mail"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="270dp"
+        android:layout_marginTop="310dp"
         android:layout_marginLeft="3dp" />
 
     <AutoCompleteTextView
@@ -132,7 +132,7 @@
         android:hint="@string/prompt_mail"
         android:maxLines="1"
         android:singleLine="true"
-        android:layout_marginTop="260dp"
+        android:layout_marginTop="300dp"
         android:layout_marginLeft="130dp" />
 
     <Button
