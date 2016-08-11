@@ -285,10 +285,11 @@ public class Login_AwalActivity extends AppCompatActivity {
 
             SharedPreferences.Editor editor = pref.edit();
             Log.d(TAG, "login token: " + map.get("result") + map.get("id_user"));
+            Log.d(TAG, "username: " + mUsername);
             editor.putString("sToken", map.get("result"));
             editor.putString("idUser", map.get("id_user"));
-            editor.putString("sPrev", map.get("previledge"));
             editor.putString("mUser", mUsername);
+            editor.putString("sPrev", map.get("previledge"));
             editor.apply();
             send_token();
             return true;

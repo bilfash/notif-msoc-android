@@ -278,11 +278,11 @@ public class ProfileActivity extends BaseActivity
         protected Boolean doInBackground(Void... voids) {
             try {
                 if(!cekSamakah()) {
+                    isiProfil();
                     if(loadload()){
                         return true;
                     }
                 } else {
-                    infoSama();
                     sama = true;
                     return true;
                 }
@@ -300,7 +300,8 @@ public class ProfileActivity extends BaseActivity
                 showErrorPage();
             }
             else {
-                isiProfil();
+                if(sama) infoSama();
+                else isiProfil();
             }
         }
 
@@ -308,9 +309,9 @@ public class ProfileActivity extends BaseActivity
             RequestBody formBody = new FormBody.Builder()
                     .add("token", sToken)
                     .add("id_user", idUser)
-                    .add("id_user", fullname)
-                    .add("id_user", email)
-                    .add("id_user", number)
+                    .add("fullname", fullname)
+                    .add("email", email)
+                    .add("number", number)
                     .build();
             Request request = new Request.Builder()
                     .url(URLupus)
@@ -344,9 +345,10 @@ public class ProfileActivity extends BaseActivity
         private void isiProfil() {
             if(!sama) {
                 fullname = tv2.getText().toString();
-                number = tv4.getText().toString();
-                email = tv5.getText().toString();
-                region = tv6.getText().toString();
+                number = tv5.getText().toString();
+                email = tv6.getText().toString();
+                region = tv4.getText().toString();
+                Toast.makeText(ProfileActivity.this, "Data anda berhasil diubah.", Toast.LENGTH_SHORT).show();
             }
         }
 

@@ -32,6 +32,7 @@ public class ChangePasswordActivity extends BaseActivity
     private String sToken = "";
     private String idUser = "";
     private String User = "";
+    private boolean errSama;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +108,7 @@ public class ChangePasswordActivity extends BaseActivity
         loadPage() {
             tv7.setError(null);
             tv9.setError(null);
+            errSama = false;
         }
         private final String URLdash = "http://notif-msoc.esy.es/api/v1/changepass_user";
 
@@ -119,15 +121,11 @@ public class ChangePasswordActivity extends BaseActivity
 
         String json;
 
-        private void ErrorPasswordSama() {
-            tv9.setError("Password yang Anda masukkan tidak sama");
-        }
-
         @Override
         protected Boolean doInBackground(Void... voids) {
             try {
-                if(passBaru.contentEquals(retypePass)) {
-                    ErrorPasswordSama();
+                if(!passBaru.contentEquals(retypePass)) {
+                    errSama = true;
                     return false;
                 }
                 else {
@@ -148,7 +146,8 @@ public class ChangePasswordActivity extends BaseActivity
                 report_sent();
             }
             else {
-                showError();
+                if(errSama) ErrorPasswordSama();
+                else showError();
             }
         }
 
@@ -156,8 +155,8 @@ public class ChangePasswordActivity extends BaseActivity
             RequestBody formBody = new FormBody.Builder()
                     .add("token", sToken)
                     .add("id_user", idUser)
-                    .add("password", tv8.getText().toString())
-                    .add("passwordlama", tv7.getText().toString())
+                    .add("password", passBaru)
+                    .add("passwordlama", passLama)
                     .add("username", User)
                     .build();
             Request request = new Request.Builder()
@@ -178,8 +177,12 @@ public class ChangePasswordActivity extends BaseActivity
         }
 
         private void report_sent() {
-            Toast.makeText(ChangePasswordActivity.this, json, Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
+            Toast.makeText(ChangePasswordActivity.this, "Password berhasil diubah", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+        }
+
+        private void ErrorPasswordSama() {
+            tv9.setError("Password yang Anda masukkan tidak sama");
         }
     }
 }

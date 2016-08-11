@@ -112,7 +112,7 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_history) {
             startActivity(new Intent(getApplicationContext(), HistoryActivity.class));
 
-        } else if (id == R.id.nav_notification && !pref.getString("sToken", null).equals("0")) {
+        } else if (id == R.id.nav_notification && !pref.getString("sPrev", null).equals("0")) {
             startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
 
         }
