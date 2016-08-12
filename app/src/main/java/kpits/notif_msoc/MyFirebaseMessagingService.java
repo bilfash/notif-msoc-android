@@ -20,6 +20,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -27,6 +28,9 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -52,6 +56,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         String body;
         String title;
+        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
 
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
@@ -64,6 +70,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
+            editor.putBoolean("adaPesan", true);
+            Date date=new Date(remoteMessage.getSentTime ());
+            SimpleDateFormat df2 = new SimpleDateFormat("HH:mm:ss, EEEE, dddd MMMMM yyyy");
+            String dateText = df2.format(date);
+            editor.putString("notifDate", dateText);
+            editor.apply();
             title = remoteMessage.getNotification().getTitle();
             body = remoteMessage.getNotification().getBody();
             sendNotification(body, title);

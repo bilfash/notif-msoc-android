@@ -1,6 +1,8 @@
 package kpits.notif_msoc;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,14 +16,14 @@ import android.widget.ListView;
 public class NotificationActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    String[] mobileArray = {
-            "20/7/2016\n\tServer DOWN",
-            "20/7/2016\n\tServer UP",
-            "21/7/2016\n\tServer DOWN",
-            "22/7/2016\n\tServer UP",
-            "23/7/2016\n\tServer DOWN",
-            "23/7/2016\n\tServer UP",
-    };
+//    String[] mobileArray = {
+//            "20/7/2016\n\tServer DOWN"
+//            "20/7/2016\n\tServer UP",
+//            "21/7/2016\n\tServer DOWN",
+//            "22/7/2016\n\tServer UP",
+//            "23/7/2016\n\tServer DOWN",
+//            "23/7/2016\n\tServer UP",
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +32,21 @@ public class NotificationActivity extends BaseActivity
         getLayoutInflater().inflate(R.layout.activity_notification, frameLayout);
         setTitle("Notification");
 
-        ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.activity_listview, mobileArray);
+        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
-        ListView listView = (ListView) findViewById(R.id.mobile_list);
-        listView.setAdapter(adapter);
+        if(pref.getBoolean("adaPesan", false)) {
+            String date = pref.getString("notifDate", null);
+
+            date = date + "\n\tServer DOWN";
+
+            String [] mobileArray = {date};
+
+            ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.activity_listview, mobileArray);
+
+
+            ListView listView = (ListView) findViewById(R.id.mobile_list);
+            listView.setAdapter(adapter);
+        }
     }
 
     @Override

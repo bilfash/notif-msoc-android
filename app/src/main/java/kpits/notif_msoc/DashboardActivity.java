@@ -70,15 +70,15 @@ public class DashboardActivity extends BaseActivity
 
         SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
-        if (pref.contains("sToken")) {
-            Toast t1 = Toast.makeText(getApplicationContext(), pref.getString("sToken", null), Toast.LENGTH_SHORT);
-            t1.show();
-        }
-
-        if (pref.contains("idUser")) {
-            Toast t1 = Toast.makeText(getApplicationContext(), pref.getString("idUser", null), Toast.LENGTH_SHORT);
-            t1.show();
-        }
+//        if (pref.contains("sToken")) {
+//            Toast t1 = Toast.makeText(getApplicationContext(), pref.getString("sToken", null), Toast.LENGTH_SHORT);
+//            t1.show();
+//        }
+//
+//        if (pref.contains("idUser")) {
+//            Toast t1 = Toast.makeText(getApplicationContext(), pref.getString("idUser", null), Toast.LENGTH_SHORT);
+//            t1.show();
+//        }
 
         sToken = pref.getString("sToken", null);
         idUser = pref.getString("idUser", null);
@@ -151,8 +151,6 @@ public class DashboardActivity extends BaseActivity
         loadPage() {
         }
 
-        private final String URLdash = "http://notif-msoc.esy.es/api/v1/dashboardAPI";
-
         @Override
         protected Boolean doInBackground(Void... voids) {
             try {
@@ -182,7 +180,7 @@ public class DashboardActivity extends BaseActivity
                     .add("id_user", idUser)
                     .build();
             Request request = new Request.Builder()
-                    .url(URLdash)
+                    .url(Constants.URLdash)
                     .post(formBody)
                     .build();
 
@@ -193,7 +191,7 @@ public class DashboardActivity extends BaseActivity
             json = body.string();
 
             Log.d(TAG, "respon send " + String.valueOf(response));
-            Log.d(TAG, "isi send " + json);
+//            Log.d(TAG, "isi send " + json);
 
             if (!response.isSuccessful()) {
                 showErrorPage();

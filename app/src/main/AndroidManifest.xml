@@ -65,7 +65,7 @@
             android:parentActivityName=".DashboardActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="BUKA_DONG" />
+                <action android:name="FCM_PLUGIN_ACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <meta-data

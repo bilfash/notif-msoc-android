@@ -121,8 +121,6 @@ public class HistoryActivity extends BaseActivity
         loadPage() {
         }
 
-        private final String URLhist = "http://notif-msoc.esy.es/api/v1/historyAPI";
-
         @Override
         protected Boolean doInBackground(Void... voids) {
             try {
@@ -151,7 +149,7 @@ public class HistoryActivity extends BaseActivity
                     .add("id_user", idUser)
                     .build();
             Request request = new Request.Builder()
-                    .url(URLhist)
+                    .url(Constants.URLhist)
                     .post(formBody)
                     .build();
 
@@ -162,7 +160,7 @@ public class HistoryActivity extends BaseActivity
             json = body.string();
 
             Log.d(TAG, "respon send " + String.valueOf(response));
-            Log.d(TAG, "isi send " + json);
+//            Log.d(TAG, "isi send " + json);
 
             if (!response.isSuccessful()) {
                 showErrorPage();

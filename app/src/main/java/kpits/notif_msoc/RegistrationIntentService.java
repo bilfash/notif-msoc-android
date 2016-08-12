@@ -23,7 +23,6 @@ public class RegistrationIntentService extends IntentService {
     private static final String TAG = "RegIntentService";
     private static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
     private final OkHttpClient client = new OkHttpClient();
-    private static final String SEND_TOKEN_URL = "http://notif-msoc.esy.es/api/v1/send_token";
 
     public RegistrationIntentService() {
         super(TAG);
@@ -68,7 +67,7 @@ public class RegistrationIntentService extends IntentService {
                     .add("id_user", idUser)
                     .build();
             Request request = new Request.Builder()
-                    .url(SEND_TOKEN_URL)
+                    .url(Constants.SEND_TOKEN_URL)
                     .post(formBody)
                     .build();
 

@@ -164,7 +164,6 @@ public class ProfileActivity extends BaseActivity
     }
 
     public class getUser extends AsyncTask<Void, Void, Boolean> {
-        private final String URLgetus = "http://notif-msoc.esy.es/api/v1/get_user";
 
         @Override
         protected Boolean doInBackground(Void... voids) {
@@ -197,7 +196,7 @@ public class ProfileActivity extends BaseActivity
                     .add("id_user", idUser)
                     .build();
             Request request = new Request.Builder()
-                    .url(URLgetus)
+                    .url(Constants.URLgetus)
                     .post(formBody)
                     .build();
 
@@ -208,7 +207,7 @@ public class ProfileActivity extends BaseActivity
             String json = body.string();
 
             Log.d(TAG, "respon send " + String.valueOf(response));
-            Log.d(TAG, "isi send " + json);
+//            Log.d(TAG, "isi send " + json);
 
             if (!response.isSuccessful()) {
                 return false;
@@ -267,7 +266,7 @@ public class ProfileActivity extends BaseActivity
     }
 
     public class updateUser extends AsyncTask<Void, Void, Boolean> {
-        private final String URLupus = "http://notif-msoc.esy.es/api/v1/update_user";
+
         TextView tv2 = (TextView) findViewById(R.id.textView2);
         TextView tv4 = (TextView) findViewById(R.id.textView4);
         TextView tv5 = (TextView) findViewById(R.id.textView5);
@@ -314,7 +313,7 @@ public class ProfileActivity extends BaseActivity
                     .add("number", number)
                     .build();
             Request request = new Request.Builder()
-                    .url(URLupus)
+                    .url(Constants.URLupus)
                     .post(formBody)
                     .build();
 
@@ -325,12 +324,8 @@ public class ProfileActivity extends BaseActivity
             String json = body.string();
 
             Log.d(TAG, "respon send " + String.valueOf(response));
-            Log.d(TAG, "isi send " + json);
-            if (!response.isSuccessful()) {
-                return false;
-            } else {
-                return true;
-            }
+//            Log.d(TAG, "isi send " + json);
+            return response.isSuccessful();
         }
 
         // Displays an error if the app is unable to load content.
@@ -368,11 +363,7 @@ public class ProfileActivity extends BaseActivity
                 sama++;
             }
 
-            if(sama == 4) {
-                return true;
-            } else {
-                return false;
-            }
+            return sama == 4;
         }
     }
 }

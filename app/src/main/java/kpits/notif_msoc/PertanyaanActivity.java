@@ -112,31 +112,6 @@ public class PertanyaanActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-//    @SuppressWarnings("StatementWithEmptyBody")
-//    @Override
-//    public boolean onNavigationItemSelected(MenuItem item) {
-//        // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//
-//        if (id == R.id.nav_dashboard) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_profile) {
-//
-//        } else if (id == R.id.nav_notification) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-//        return true;
-//    }
-
     private Spinner spinner1, spinner2, spinner3, spinner4, spinner5, spinner6, spinner7;
 
     // add items into spinner dynamically
@@ -953,7 +928,6 @@ public class PertanyaanActivity extends BaseActivity
     }
 
     public class loadPage extends AsyncTask<Void, Void, Boolean> {
-        private final String URLdash = "http://notif-msoc.esy.es/api/v1/send_report";
 
         String json;
         loadPage() {
@@ -999,7 +973,7 @@ public class PertanyaanActivity extends BaseActivity
                     .add("detail", idDetail)
                     .build();
             Request request = new Request.Builder()
-                    .url(URLdash)
+                    .url(Constants.URLreps)
                     .post(formBody)
                     .build();
 

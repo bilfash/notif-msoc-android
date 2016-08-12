@@ -42,8 +42,6 @@ import okhttp3.ResponseBody;
 public class Login_AwalActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
-    private static final String LOGIN_URL = "http://notif-msoc.esy.es/api/v1/login";
-    private static final String SEND_TOKEN_URL = "http://notif-msoc.esy.es/api/v1/send_token";
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -210,7 +208,7 @@ public class Login_AwalActivity extends AppCompatActivity {
 
         public void send_token() throws Exception {
             String fToken = FirebaseInstanceId.getInstance().getToken();
-            Log.d(TAG, "InstanceID token: " + fToken);
+//            Log.d(TAG, "InstanceID token: " + fToken);
             if (pref.contains("sToken")) {
                 String sToken = pref.getString("sToken", null);
                 String idUser = pref.getString("idUser", null);
@@ -221,7 +219,7 @@ public class Login_AwalActivity extends AppCompatActivity {
                         .add("id_user", idUser)
                         .build();
                 Request request = new Request.Builder()
-                        .url(SEND_TOKEN_URL)
+                        .url(Constants.SEND_TOKEN_URL)
                         .post(formBody)
                         .build();
 
@@ -232,7 +230,7 @@ public class Login_AwalActivity extends AppCompatActivity {
                 String json = body.string();
 
                 Log.d(TAG, "respon send " + String.valueOf(response));
-                Log.d(TAG, "isi send " + json);
+//                Log.d(TAG, "isi send " + json);
 
                 if (response.isSuccessful()) {
                     SharedPreferences.Editor editor = pref.edit();
@@ -248,7 +246,7 @@ public class Login_AwalActivity extends AppCompatActivity {
                     .add("password", mPassword)
                     .build();
             Request request = new Request.Builder()
-                    .url(LOGIN_URL)
+                    .url(Constants.LOGIN_URL)
                     .post(formBody)
                     .build();
 
@@ -259,7 +257,7 @@ public class Login_AwalActivity extends AppCompatActivity {
             String json = body.string();
 
             Log.d(TAG, "respon login " + String.valueOf(response));
-            Log.d(TAG, "isi login " + json);
+//            Log.d(TAG, "isi login " + json);
 
             if (!response.isSuccessful()) return false;
 
@@ -284,8 +282,8 @@ public class Login_AwalActivity extends AppCompatActivity {
             }
 
             SharedPreferences.Editor editor = pref.edit();
-            Log.d(TAG, "login token: " + map.get("result") + map.get("id_user"));
-            Log.d(TAG, "username: " + mUsername);
+//            Log.d(TAG, "login token: " + map.get("result") + map.get("id_user"));
+//            Log.d(TAG, "username: " + mUsername);
             editor.putString("sToken", map.get("result"));
             editor.putString("idUser", map.get("id_user"));
             editor.putString("mUser", mUsername);
