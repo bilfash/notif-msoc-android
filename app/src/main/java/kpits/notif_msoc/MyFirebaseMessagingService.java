@@ -72,7 +72,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             editor.putBoolean("adaPesan", true);
             Date date=new Date(remoteMessage.getSentTime ());
-            SimpleDateFormat df2 = new SimpleDateFormat("HH:mm:ss, EEEE, dddd MMMMM yyyy");
+            SimpleDateFormat df2 = new SimpleDateFormat("HH:mm:ss, EEEE, dd MMMM yyyy");
             String dateText = df2.format(date);
             editor.putString("notifDate", dateText);
             editor.apply();

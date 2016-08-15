@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,12 +59,28 @@ public class HistoryActivity extends BaseActivity
 
     private static final String TAG = "HistoryActivity";
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         getLayoutInflater().inflate(R.layout.activity_history, frameLayout);
         setTitle("History");
+
+        // Retrieve the SwipeRefreshLayout and ListView instances
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    mPageTask = new loadPage();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                mPageTask.execute((Void) null);
+            }
+        });
 
         SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         sToken = pref.getString("sToken", null);
@@ -139,8 +156,10 @@ public class HistoryActivity extends BaseActivity
             if (!success) {
                 showErrorPage();
             }
-            else
+            else{
                 loadHist();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
         }
 
         private void loadload() throws Exception {
@@ -253,6 +272,10 @@ public class HistoryActivity extends BaseActivity
             return true;
         }
         else if (id == R.id.refresh) {
+
+            if (!mSwipeRefreshLayout.isRefreshing()) {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
             try {
                 mPageTask = new loadPage();
             } catch (Exception e) {

@@ -14,6 +14,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -61,6 +62,8 @@ public class DashboardActivity extends BaseActivity
 
     private static final String TAG = "DashboardActivity";
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +103,20 @@ public class DashboardActivity extends BaseActivity
 
         getLayoutInflater().inflate(R.layout.activity_dashboard, frameLayout);
         setTitle("Dashboard");
+
+        // Retrieve the SwipeRefreshLayout and ListView instances
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    mPageTask = new loadPage();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                mPageTask.execute((Void) null);
+            }
+        });
 
         WebView myWebView = (WebView) findViewById(R.id.webview);
         // Force links and redirects to open in the WebView instead of in a browser
@@ -148,6 +165,7 @@ public class DashboardActivity extends BaseActivity
 
     public class loadPage extends AsyncTask<Void, Void, Boolean> {
         private String json;
+
         loadPage() {
         }
 
@@ -169,8 +187,11 @@ public class DashboardActivity extends BaseActivity
             if (!success) {
                 showErrorPage();
             }
-            else
+            else {
                 loadDash();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+
         }
 
         private void loadload() throws Exception {
@@ -290,6 +311,11 @@ public class DashboardActivity extends BaseActivity
             return true;
         }
         else if (id == R.id.refresh) {
+
+            if (!mSwipeRefreshLayout.isRefreshing()) {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+
             try {
                 mPageTask = new loadPage();
             } catch (Exception e) {

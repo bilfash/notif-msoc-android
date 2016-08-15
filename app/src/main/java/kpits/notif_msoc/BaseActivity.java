@@ -27,7 +27,9 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        setContentView(R.layout.activity_base);
+
+        if(!pref.getString("sPrev", null).contentEquals("0")) setContentView(R.layout.activity_base);
+        else setContentView(R.layout.activity_basenol);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -112,7 +114,7 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_history) {
             startActivity(new Intent(getApplicationContext(), HistoryActivity.class));
 
-        } else if (id == R.id.nav_notification && !pref.getString("sPrev", null).equals("0")) {
+        } else if (id == R.id.nav_notification && !pref.getString("sPrev", null).contentEquals("0")) {
             startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
 
         }
