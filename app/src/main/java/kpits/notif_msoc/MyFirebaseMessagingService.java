@@ -66,6 +66,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            editor.putBoolean("adaPesan", true);
+            Date date=new Date(remoteMessage.getSentTime ());
+            SimpleDateFormat df2 = new SimpleDateFormat("HH:mm:ss, EEEE, dd MMMM yyyy");
+            String dateText = df2.format(date);
+            editor.putString("notifDate", dateText);
+            editor.apply();
         }
 
         // Check if message contains a notification payload.
