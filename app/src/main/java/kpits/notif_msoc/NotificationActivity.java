@@ -16,15 +16,6 @@ import android.widget.ListView;
 public class NotificationActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-//    String[] mobileArray = {
-//            "20/7/2016\n\tServer DOWN"
-//            "20/7/2016\n\tServer UP",
-//            "21/7/2016\n\tServer DOWN",
-//            "22/7/2016\n\tServer UP",
-//            "23/7/2016\n\tServer DOWN",
-//            "23/7/2016\n\tServer UP",
-//    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
