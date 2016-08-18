@@ -1,8 +1,6 @@
 package kpits.notif_msoc;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class NotificationActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -23,21 +23,28 @@ public class NotificationActivity extends BaseActivity
         getLayoutInflater().inflate(R.layout.activity_notification, frameLayout);
         setTitle("Notification");
 
-        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-
-        if(pref.getBoolean("adaPesan", false)) {
-            String date = pref.getString("notifDate", null);
-
-            date = date + "\n\tServer DOWN";
-
-            String [] mobileArray = {date};
-
-            ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.activity_listview, mobileArray);
+//        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        DBHelper mydb = new DBHelper(this);
+        ArrayList array_list = mydb.getAllNotifs();
+        ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.activity_listview, array_list);
 
 
-            ListView listView = (ListView) findViewById(R.id.mobile_list);
-            listView.setAdapter(adapter);
-        }
+        ListView listView = (ListView) findViewById(R.id.mobile_list);
+        listView.setAdapter(adapter);
+
+//        if(pref.getBoolean("adaPesan", false)) {
+//            String date = pref.getString("notifDate", null);
+//
+//            date = date + "\n\tServer DOWN";
+//
+//            String [] mobileArray = {date};
+//
+//            ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.activity_listview, mobileArray);
+//
+//
+//            ListView listView = (ListView) findViewById(R.id.mobile_list);
+//            listView.setAdapter(adapter);
+//        }
     }
 
     @Override

@@ -49,6 +49,9 @@ public class PertanyaanActivity extends BaseActivity
     private int month = 0;
     private int year = 0;
 
+
+    private static final String TAG = "PertanyaanActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

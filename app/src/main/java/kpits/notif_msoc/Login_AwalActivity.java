@@ -257,7 +257,7 @@ public class Login_AwalActivity extends AppCompatActivity {
             String json = body.string();
 
             Log.d(TAG, "respon login " + String.valueOf(response));
-//            Log.d(TAG, "isi login " + json);
+            Log.d(TAG, "isi login " + json);
 
             if (!response.isSuccessful()) return false;
 

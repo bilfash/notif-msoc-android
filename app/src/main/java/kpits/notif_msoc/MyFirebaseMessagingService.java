@@ -31,6 +31,7 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -54,10 +55,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
         // [END_EXCLUDE]
 
+        String status;
         String body;
         String title;
         SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
+        DBHelper mydb = new DBHelper(this);
 
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
@@ -66,27 +69,39 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+
+            Map<String, String> data = remoteMessage.getData();
+            status = data.get("status");
+            title = data.get("title");
+            body = data.get("body");
+
+            Log.d(TAG, status + title + body);
+
+            sendNotification(body, title);
+
             editor.putBoolean("adaPesan", true);
             Date date=new Date(remoteMessage.getSentTime ());
             SimpleDateFormat df2 = new SimpleDateFormat("HH:mm:ss, EEEE, dd MMMM yyyy");
             String dateText = df2.format(date);
             editor.putString("notifDate", dateText);
             editor.apply();
+
+            mydb.insertNotif(status, dateText);
         }
 
         // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
-            editor.putBoolean("adaPesan", true);
-            Date date=new Date(remoteMessage.getSentTime ());
-            SimpleDateFormat df2 = new SimpleDateFormat("HH:mm:ss, EEEE, dd MMMM yyyy");
-            String dateText = df2.format(date);
-            editor.putString("notifDate", dateText);
-            editor.apply();
-            title = remoteMessage.getNotification().getTitle();
-            body = remoteMessage.getNotification().getBody();
-            sendNotification(body, title);
-            Log.d(TAG, "Message Notification Body: " + body);
-        }
+//        if (remoteMessage.getNotification() != null) {
+//            editor.putBoolean("adaPesan", true);
+//            Date date=new Date(remoteMessage.getSentTime ());
+//            SimpleDateFormat df2 = new SimpleDateFormat("HH:mm:ss, EEEE, dd MMMM yyyy");
+//            String dateText = df2.format(date);
+//            editor.putString("notifDate", dateText);
+//            editor.apply();
+//            title = remoteMessage.getNotification().getTitle();
+//            body = remoteMessage.getNotification().getBody();
+//            sendNotification(body, title);
+//            Log.d(TAG, "Message Notification Body: " + body);
+//        }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
@@ -109,6 +124,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_stat_ic_notification)
                 .setContentTitle(title)
                 .setContentText(messageBody)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(title + "\n" + messageBody))
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
