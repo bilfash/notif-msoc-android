@@ -226,8 +226,8 @@ public class Login_AwalActivity extends AppCompatActivity {
                 // Execute the request and retrieve the response.
                 // TODO: 8/1/2016 add conn error handler
                 Response response = client.newCall(request).execute();
-                ResponseBody body = response.body();
-                String json = body.string();
+//                ResponseBody body = response.body();
+//                String json = body.string();
 
                 Log.d(TAG, "respon send " + String.valueOf(response));
 //                Log.d(TAG, "isi send " + json);

@@ -217,12 +217,12 @@ public class DashboardActivity extends BaseActivity
             if (!response.isSuccessful()) {
                 showErrorPage();
             }
-            if (((sPref.equals(ANY)) && (wifiConnected || mobileConnected))
-                    || ((sPref.equals(WIFI)) && (wifiConnected))) {
-
-            } else {
-                showErrorPage();
-            }
+//            if (((sPref.equals(ANY)) && (wifiConnected || mobileConnected))
+//                    || ((sPref.equals(WIFI)) && (wifiConnected))) {
+//
+//            } else {
+//                showErrorPage();
+//            }
         }
 
         // Displays an error if the app is unable to load content.

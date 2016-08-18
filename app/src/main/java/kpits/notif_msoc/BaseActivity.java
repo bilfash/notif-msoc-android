@@ -20,8 +20,8 @@ public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
-    protected FrameLayout frameLayout;
-    protected NavigationView navigationView;
+    FrameLayout frameLayout;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

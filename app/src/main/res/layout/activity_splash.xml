@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/imageView2"
             android:layout_gravity="center"
-            android:src="@drawable/logo" />
+            android:src="@drawable/logo"
+            android:contentDescription="@string/desc_logo_telkom"/>
     </FrameLayout>
 
     <!-- This FrameLayout insets its children based on system windows using

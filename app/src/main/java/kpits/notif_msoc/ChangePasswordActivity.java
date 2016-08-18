@@ -20,7 +20,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 public class ChangePasswordActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -112,14 +111,12 @@ public class ChangePasswordActivity extends BaseActivity
         }
         private final String URLdash = "http://notif-msoc.esy.es/api/v1/changepass_user";
 
-        TextView tv7 = (TextView) findViewById(R.id.textView7);
-        TextView tv8 = (TextView) findViewById(R.id.textView8);
-        TextView tv9 = (TextView) findViewById(R.id.textView9);
-        String passLama = tv7.getText().toString();
-        String passBaru = tv8.getText().toString();
-        String retypePass = tv9.getText().toString();
-
-        String json;
+        final TextView tv7 = (TextView) findViewById(R.id.textView7);
+        final TextView tv8 = (TextView) findViewById(R.id.textView8);
+        final TextView tv9 = (TextView) findViewById(R.id.textView9);
+        final String passLama = tv7.getText().toString();
+        final String passBaru = tv8.getText().toString();
+        final String retypePass = tv9.getText().toString();
 
         @Override
         protected Boolean doInBackground(Void... voids) {
@@ -167,8 +164,8 @@ public class ChangePasswordActivity extends BaseActivity
             // Execute the request and retrieve the response.
             // TODO: 8/1/2016 add conn error handler
             Response response = client.newCall(request).execute();
-            ResponseBody body = response.body();
-            json = body.string();
+//            ResponseBody body = response.body();
+//            String json = body.string();
         }
 
         // Displays an error if the app is unable to load content.

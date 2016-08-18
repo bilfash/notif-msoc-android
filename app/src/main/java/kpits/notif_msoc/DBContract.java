@@ -2,7 +2,7 @@ package kpits.notif_msoc;
 
 import android.provider.BaseColumns;
 
-public final class DBContract {
+final class DBContract {
 
     public static final String TABLE_CREATE =
             "CREATE TABLE " + Notif.TABLE_NAME + "( "

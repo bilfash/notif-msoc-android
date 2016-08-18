@@ -1,15 +1,12 @@
 package kpits.notif_msoc;
 
-/**
- * Created by Danang on 8/12/2016.
- */
-public class Constants {
+class Constants {
 
     public Constants() {
 
     }
 
-    public static final String URLserver = "http://notif-msoc.esy.es";
+    private static final String URLserver = "http://notif-msoc.esy.es";
     public static final String URLdash = URLserver + "/api/v1/dashboardAPI";
     public static final String URLhist = URLserver + "/api/v1/historyAPI";
     public static final String URLgetus = URLserver + "/api/v1/get_user";

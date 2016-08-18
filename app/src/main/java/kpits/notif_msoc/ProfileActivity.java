@@ -253,11 +253,11 @@ public class ProfileActivity extends BaseActivity
 
             tv2.setText(fullname);
             if (previledge.contentEquals("0")) {
-                tv3.setText("Pusat");
+                tv3.setText(R.string.pusat);
             } else if (previledge.contentEquals("1")) {
-                tv3.setText("Provinsi");
+                tv3.setText(R.string.provinsi);
             } else if (previledge.contentEquals("2")) {
-                tv3.setText("Kabupaten / Kota");
+                tv3.setText(R.string.kab_kota);
             }
             tv4.setText(region);
             tv5.setText(number);
@@ -267,10 +267,10 @@ public class ProfileActivity extends BaseActivity
 
     public class updateUser extends AsyncTask<Void, Void, Boolean> {
 
-        TextView tv2 = (TextView) findViewById(R.id.textView2);
-        TextView tv4 = (TextView) findViewById(R.id.textView4);
-        TextView tv5 = (TextView) findViewById(R.id.textView5);
-        TextView tv6 = (TextView) findViewById(R.id.textView6);
+        final TextView tv2 = (TextView) findViewById(R.id.textView2);
+        final TextView tv4 = (TextView) findViewById(R.id.textView4);
+        final TextView tv5 = (TextView) findViewById(R.id.textView5);
+        final TextView tv6 = (TextView) findViewById(R.id.textView6);
         boolean sama = false;
 
         @Override
@@ -320,8 +320,8 @@ public class ProfileActivity extends BaseActivity
             // Execute the request and retrieve the response.
             // TODO: 8/1/2016 add conn error handler
             Response response = client.newCall(request).execute();
-            ResponseBody body = response.body();
-            String json = body.string();
+//            ResponseBody body = response.body();
+//            String json = body.string();
 
             Log.d(TAG, "respon send " + String.valueOf(response));
 //            Log.d(TAG, "isi send " + json);

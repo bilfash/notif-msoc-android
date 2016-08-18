@@ -50,7 +50,7 @@ public class PertanyaanActivity extends BaseActivity
     private int year = 0;
 
 
-    private static final String TAG = "PertanyaanActivity";
+//    private static final String TAG = "PertanyaanActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -10,7 +10,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-public class DBHelper extends SQLiteOpenHelper {
+class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "notifmsoc.db";
     private static final int DATABASE_VERSION = 1;
@@ -72,7 +72,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<String> getAllNotifs() {
-        ArrayList<String> array_list = new ArrayList<String>();
+        ArrayList<String> array_list = new ArrayList<>();
 
         //hp = new HashMap();
         String query = "SELECT * FROM " + DBContract.Notif.TABLE_NAME;
@@ -80,11 +80,12 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor res =  db.rawQuery(query, null);
         res.moveToFirst();
 
-        while(res.isAfterLast() == false){
+        while(!res.isAfterLast()){
             array_list.add(res.getString(res.getColumnIndex(DBContract.Notif.COLUMN_DATE)) + "\n"
                     + res.getString(res.getColumnIndex(DBContract.Notif.COLUMN_CONTENT)));
             res.moveToNext();
         }
+        res.close();
         return array_list;
     }
 }
