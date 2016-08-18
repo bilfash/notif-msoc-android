@@ -116,7 +116,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/submit"
-                android:layout_marginTop="450dp"
+                android:layout_marginTop="440dp"
+                android:layout_marginBottom="20dp"
                 android:layout_centerHorizontal="true" />
         </RelativeLayout>
     </ScrollView>
