@@ -117,7 +117,8 @@
             android:name=".ChangePasswordActivity"
             android:label="@string/title_activity_change_password"
             android:parentActivityName=".ProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="kpits.notif_msoc.ProfileActivity" />
