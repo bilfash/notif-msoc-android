@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Notif-MSOC.iml" filepath="$PROJECT_DIR$/Notif-MSOC.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/notif-msoc-android.iml" filepath="$PROJECT_DIR$/notif-msoc-android.iml" />
     </modules>
   </component>
 </project>
