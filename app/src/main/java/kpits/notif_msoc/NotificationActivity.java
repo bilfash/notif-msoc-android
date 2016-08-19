@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class NotificationActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,6 +27,7 @@ public class NotificationActivity extends BaseActivity
 //        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         DBHelper mydb = new DBHelper(this);
         ArrayList array_list = mydb.getAllNotifs();
+        Collections.reverse(array_list);
         ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.activity_listview, array_list);
 
 
