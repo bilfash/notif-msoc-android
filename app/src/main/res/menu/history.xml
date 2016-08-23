@@ -10,9 +10,9 @@
     <item android:id="@+id/refresh"
         android:title="@string/refresh" />
 
-    <item android:id="@+id/subs"
-        android:title="@string/subs" />
+    <!--<item android:id="@+id/subs"-->
+        <!--android:title="@string/subs" />-->
 
-    <item android:id="@+id/token"
-        android:title="@string/token" />
+    <!--<item android:id="@+id/token"-->
+        <!--android:title="@string/token" />-->
 </menu>

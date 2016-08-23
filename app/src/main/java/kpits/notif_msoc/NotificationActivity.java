@@ -1,10 +1,12 @@
 package kpits.notif_msoc;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,11 @@ import java.util.Collections;
 public class NotificationActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private ArrayList<String> array_list;
+    private ArrayAdapter adapter;
+    private DBHelper mydb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,29 +31,26 @@ public class NotificationActivity extends BaseActivity
         getLayoutInflater().inflate(R.layout.activity_notification, frameLayout);
         setTitle("Notification");
 
-//        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        DBHelper mydb = new DBHelper(this);
-        ArrayList array_list = mydb.getAllNotifs();
-        Collections.reverse(array_list);
-        ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.activity_listview, array_list);
+        mydb = new DBHelper(this);
 
-
+        // Retrieve the SwipeRefreshLayout and ListView instances
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
         ListView listView = (ListView) findViewById(R.id.mobile_list);
+
+//        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+
+        array_list = mydb.getAllNotifs();
+        Collections.reverse(array_list);
+        adapter = new ArrayAdapter<>(this, R.layout.activity_listview, array_list);
+
         listView.setAdapter(adapter);
 
-//        if(pref.getBoolean("adaPesan", false)) {
-//            String date = pref.getString("notifDate", null);
-//
-//            date = date + "\n\tServer DOWN";
-//
-//            String [] mobileArray = {date};
-//
-//            ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.activity_listview, mobileArray);
-//
-//
-//            ListView listView = (ListView) findViewById(R.id.mobile_list);
-//            listView.setAdapter(adapter);
-//        }
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initiateRefresh();
+            }
+        });
     }
 
     @Override
@@ -88,6 +92,17 @@ public class NotificationActivity extends BaseActivity
             startActivity(settingsActivity);
             return true;
         }
+        else if (id == R.id.refresh) {
+            // We make sure that the SwipeRefreshLayout is displaying it's refreshing indicator
+            if (!mSwipeRefreshLayout.isRefreshing()) {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+
+            // Start our refresh background task
+            initiateRefresh();
+
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -95,5 +110,49 @@ public class NotificationActivity extends BaseActivity
     public void goToPertanyaan(View view) {
         Intent intent = new Intent(this, PertanyaanActivity.class);
         startActivity(intent);
+    }
+
+    private void initiateRefresh() {        /**
+         * Execute the background task, which uses {@link android.os.AsyncTask} to load the data.
+         */
+        new refreshNotif().execute();
+    }
+
+    private void onRefreshComplete() {
+        // Remove all items from the ListAdapter, and then replace them with the new items
+        adapter.clear();
+        for (String setring : array_list) {
+            adapter.add(setring);
+        }
+
+        // Stop the refreshing indicator
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    private void refreshnot() {
+        array_list = mydb.getAllNotifs();
+        Collections.reverse(array_list);
+    }
+
+    private class refreshNotif extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                refreshnot();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+
+            // Tell the Fragment that the refresh has completed
+            onRefreshComplete();
+        }
     }
 }

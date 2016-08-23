@@ -1001,14 +1001,6 @@ public class PertanyaanActivity extends BaseActivity
 
     // get the selected dropdown list value
     private void addListenerOnButton() {
-
-//        spinner1 = (Spinner) findViewById(R.id.spinner1);
-//        spinner2 = (Spinner) findViewById(R.id.spinner2);
-//        spinner3 = (Spinner) findViewById(R.id.spinner3);
-//        spinner4 = (Spinner) findViewById(R.id.spinner4);
-//        spinner5 = (Spinner) findViewById(R.id.spinner5);
-//        spinner6 = (Spinner) findViewById(R.id.spinner6);
-//        spinner7 = (Spinner) findViewById(R.id.spinner7);
         Button btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
         btnSubmit.setOnClickListener(new OnClickListener() {
@@ -1022,16 +1014,6 @@ public class PertanyaanActivity extends BaseActivity
                 }
                 mPageTask.execute((Void) null);
 
-//                Toast.makeText(PertanyaanActivity.this,
-//                        "OnClickListener : " +
-//                                "\nSpinner 1 : "+ String.valueOf(spinner1.getSelectedItem()) +
-//                                "\nSpinner 2 : "+ String.valueOf(spinner2.getSelectedItem()) +
-//                                "\nSpinner 3 : "+ String.valueOf(spinner3.getSelectedItem()) +
-//                                "\nSpinner 4 : "+ String.valueOf(spinner4.getSelectedItem()) +
-//                                "\nSpinner 5 : "+ String.valueOf(spinner5.getSelectedItem()) +
-//                                "\nSpinner 6 : "+ String.valueOf(spinner6.getSelectedItem()) +
-//                                "\nSpinner 7 : "+ String.valueOf(spinner7.getSelectedItem()),
-//                        Toast.LENGTH_SHORT).show();
             }
 
         });

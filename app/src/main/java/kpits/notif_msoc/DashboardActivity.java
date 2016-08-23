@@ -24,9 +24,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
-
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -299,17 +296,17 @@ public class DashboardActivity extends BaseActivity
             startActivity(settingsActivity);
             return true;
         }
-        else if (id == R.id.subs) {
-            // [START subscribe_topics]
-            FirebaseMessaging.getInstance().subscribeToTopic("news");
-            Log.d(TAG, "Subscribed to news topic");
-            // [END subscribe_topics]
-            return true;
-        }
-        else if (id == R.id.token) {
-            Log.d(TAG, "InstanceID token: " + FirebaseInstanceId.getInstance().getToken());
-            return true;
-        }
+//        else if (id == R.id.subs) {
+//            // [START subscribe_topics]
+//            FirebaseMessaging.getInstance().subscribeToTopic("news");
+//            Log.d(TAG, "Subscribed to news topic");
+//            // [END subscribe_topics]
+//            return true;
+//        }
+//        else if (id == R.id.token) {
+//            Log.d(TAG, "InstanceID token: " + FirebaseInstanceId.getInstance().getToken());
+//            return true;
+//        }
         else if (id == R.id.refresh) {
 
             if (!mSwipeRefreshLayout.isRefreshing()) {
